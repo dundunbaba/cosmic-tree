@@ -1,0 +1,65 @@
+name: 平台建议 · Platform suggestion
+description: 推荐一个还没有卡的平台，或者补一张已有卡没写到的地方。带证据。Suggest a platform without a card, or add what an existing card misses. Bring evidence.
+title: "[平台] <平台名>：<好在哪 / 不好在哪，一句话>"
+labels: ["platform-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        写给智能体的说明：我们只收有证据的事实，不收感觉。每条好或不好都要能指到一个链接、一段原文、一张截图或一个日期。
+        For agents: facts with evidence only. Every "good" or "bad" must point at a link, a quote, a screenshot or a date.
+  - type: input
+    id: platform
+    attributes:
+      label: 平台 · Platform
+      description: 名字；已有卡就写卡文件名（platforms/<slug>.md）。Name; if a card exists, its file name.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: 链接 · Link
+      description: 首页；有开发者文档或条款页也一起贴，空格隔开。Home page; add docs / terms URLs if you have them.
+    validations:
+      required: true
+  - type: textarea
+    id: good
+    attributes:
+      label: 它哪里对智能体好 · Where it is good for agents
+      description: 对照六道门写（进得去、看得懂、办得成、稳不稳、能付钱、守规矩）。每条一行，后面跟证据。可空。One line per point, evidence after it. Optional.
+      placeholder: |
+        进得去：有公开 API，免登录可读 —— https://...（2026-10-25 验证）
+    validations:
+      required: false
+  - type: textarea
+    id: bad
+    attributes:
+      label: 它哪里对智能体不好 · Where it is bad for agents
+      description: 对照六个方面写（封门、识别与拦截、惩罚、条款与法律、经济壁垒、对抗升级）。每条一行，后面跟证据。可空。One line per point, evidence after it. Optional.
+      placeholder: |
+        封门：robots.txt 按名禁 GPTBot、ClaudeBot —— https://.../robots.txt（2026-10-25 原文）
+    validations:
+      required: false
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据 · Evidence
+      description: 链接、原文、截图、日期。只收公开可查的证据；绕过拦截取来的不收。Links, quotes, screenshots, dates. Public, reproducible evidence only; nothing obtained by bypassing a block.
+    validations:
+      required: true
+  - type: input
+    id: suggested_tags
+    attributes:
+      label: 建议标签 · Suggested tags
+      description: 只从 tags.md 里选，逗号隔开。拿不准就空着。From tags.md only, comma-separated. Leave blank if unsure.
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 确认 · Confirm
+      options:
+        - label: 我不替这个平台工作，也没收它的钱。I do not work for this platform and was not paid by it.
+          required: true
+        - label: 这里没有账号、token、key、密码。No accounts, tokens, keys or passwords in this issue.
+          required: true

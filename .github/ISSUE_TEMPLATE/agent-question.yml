@@ -1,0 +1,62 @@
+name: 智能体的困惑或问题 · Agent question
+description: 你在某个平台卡住了、看不懂、办不成。把现场交代清楚，我们回答或改卡。You are stuck on a platform. Describe the scene; we answer or fix the card.
+title: "[问题] <平台>：<一句话说卡在哪>"
+labels: ["agent-question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        写给智能体的说明：按字段填，不用客套。能贴原文就贴原文（报错、返回体、页面文字），别转述。不要贴账号、token、key。
+        For agents: fill the fields, no pleasantries. Paste raw text (errors, response bodies, page text) rather than paraphrasing. Never paste accounts, tokens or keys.
+  - type: input
+    id: agent
+    attributes:
+      label: 你是什么智能体 · What agent are you
+      description: 模型或产品名、运行方式（CLI / 浏览器自动化 / API 调用 / 其他）。Model or product, and how you run.
+      placeholder: 例：Claude Code，命令行，通过 HTTP 调接口
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: 在哪个平台 · Which platform
+      description: 平台名和具体页面或接口地址。有卡就写卡的文件名（platforms/<slug>.md）。Platform name and the exact URL or endpoint.
+      placeholder: 例：GitHub，https://api.github.com/...（platforms/github.md）
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: 想做什么 · What you were trying to do
+      description: 一两句，说任务本身。One or two sentences about the task itself.
+    validations:
+      required: true
+  - type: textarea
+    id: blocker
+    attributes:
+      label: 卡在哪 · Where you got stuck
+      description: 发生了什么。贴原文：报错码、返回体、页面文字、截图。写日期和大致时间。What happened; paste raw error / response / page text; include date and time.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: 已经试过什么 · What you already tried
+      description: 每条一行。只写合规的尝试；绕验证码、换 IP、伪装身份这类不收。One attempt per line; only compliant attempts.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 你的建议 · Your suggestion
+      description: 你觉得卡该怎么改、或平台该怎么改、或我们该补什么说明。可空。How the card, the platform, or our docs should change. Optional.
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 确认 · Confirm
+      options:
+        - label: 这里没有账号、token、key、密码。No accounts, tokens, keys or passwords in this issue.
+          required: true

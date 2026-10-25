@@ -1,0 +1,71 @@
+# GitHub → Gitee 镜像同步
+# 每次 push master（或手动触发）把全部分支和标签推到 Gitee。
+# 地址和私钥只从仓库 Secrets 读：GITEE_SSH_PRIVATE_KEY、GITEE_MIRROR_URL。
+# 没配 Secrets 就打印"未配置镜像"并跳过，不报错。配法见 docs/mirror.md。
+
+name: Mirror to Gitee
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: mirror-gitee
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检查 Secrets 是否配置
+        id: check
+        env:
+          GITEE_SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+          GITEE_MIRROR_URL: ${{ secrets.GITEE_MIRROR_URL }}
+        run: |
+          if [ -z "$GITEE_SSH_PRIVATE_KEY" ] || [ -z "$GITEE_MIRROR_URL" ]; then
+            echo "未配置镜像：缺 GITEE_SSH_PRIVATE_KEY 或 GITEE_MIRROR_URL，跳过同步。配法见 docs/mirror.md"
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 拉取全部分支和标签
+        if: steps.check.outputs.configured == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: 配置 SSH
+        if: steps.check.outputs.configured == 'true'
+        env:
+          GITEE_SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$GITEE_SSH_PRIVATE_KEY" > ~/.ssh/gitee_mirror
+          chmod 600 ~/.ssh/gitee_mirror
+          ssh-keyscan -t rsa,ed25519 gitee.com >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: 推到 Gitee
+        if: steps.check.outputs.configured == 'true'
+        env:
+          GITEE_MIRROR_URL: ${{ secrets.GITEE_MIRROR_URL }}
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/gitee_mirror -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts
+        run: |
+          # checkout 把远端分支放在 refs/remotes/origin/*，按原名推成 Gitee 的 refs/heads/*；标签照推。
+          # --force --prune：Gitee 是只读镜像，以 GitHub 为准。
+          git symbolic-ref -d refs/remotes/origin/HEAD 2>/dev/null || true
+          git push --force --prune "$GITEE_MIRROR_URL" \
+            'refs/remotes/origin/*:refs/heads/*' \
+            'refs/tags/*:refs/tags/*'
+          echo "已同步到 Gitee 镜像。"
+
+      - name: 清理私钥
+        if: always() && steps.check.outputs.configured == 'true'
+        run: rm -f ~/.ssh/gitee_mirror

@@ -1,0 +1,88 @@
+name: 申诉改分 · Score dispute
+description: 你认为某个平台某一项的分数不对。给出现在几分、你认为几分、证据。按证据改，改分留痕。You think a score is wrong. Give current score, your score, evidence. We change by evidence and keep the trail.
+title: "[改分] <平台>：<哪一项> <现在几分> → <你认为几分>"
+labels: ["score-dispute"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        写给智能体的说明：分数只按证据改，不按身份改。平台方申诉也走这里，公开处理，不私聊。
+        For agents: scores change on evidence, not on who asks. Platform owners dispute here too, in public.
+  - type: input
+    id: platform
+    attributes:
+      label: 平台 · Platform
+      description: 卡文件名（platforms/<slug>.md）。The card file name.
+    validations:
+      required: true
+  - type: dropdown
+    id: index
+    attributes:
+      label: 哪个指数 · Which index
+      options:
+        - 友好指数 Friendliness Index
+        - 反智能体指数 Anti-Agent Index
+    validations:
+      required: true
+  - type: dropdown
+    id: item
+    attributes:
+      label: 哪一项 · Which item
+      description: 友好指数选六道门之一，反智能体指数选六个方面之一；整体分数有异议选"整体"。
+      options:
+        - 友好·1 进得去
+        - 友好·2 看得懂
+        - 友好·3 办得成
+        - 友好·4 稳不稳
+        - 友好·5 能付钱
+        - 友好·6 守规矩
+        - 反·1 封门
+        - 反·2 识别与拦截
+        - 反·3 惩罚
+        - 反·4 条款与法律
+        - 反·5 经济壁垒
+        - 反·6 对抗升级
+        - 整体 Overall
+    validations:
+      required: true
+  - type: input
+    id: current
+    attributes:
+      label: 现在几分 · Current score
+      description: 卡上现在写的分（整体分或该项的检查项得分）。What the card says now.
+    validations:
+      required: true
+  - type: input
+    id: proposed
+    attributes:
+      label: 你认为几分 · Your score
+      description: 数字，按 docs/ 里的模型给。A number, per the model in docs/.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据 · Evidence
+      description: 为什么现在的分不对、你的分为什么对。链接、原文、截图、复测步骤、日期。能让别人复测的才算。Links, quotes, screenshots, steps to reproduce, dates. Must be reproducible by others.
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: relation
+    attributes:
+      label: 你和这个平台的关系 · Your relation to the platform
+      options:
+        - 普通使用者 User
+        - 平台方或受其委托 Platform owner or on its behalf
+        - 其他 Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 确认 · Confirm
+      options:
+        - label: 证据是公开可查的，不是绕过拦截取来的。Evidence is public and was not obtained by bypassing a block.
+          required: true
+        - label: 这里没有账号、token、key、密码。No accounts, tokens, keys or passwords in this issue.
+          required: true
