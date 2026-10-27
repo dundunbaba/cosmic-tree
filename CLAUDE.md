@@ -1,4 +1,4 @@
-# CLAUDE.md — agent-cosmic-tree
+# CLAUDE.md — cosmic-tree
 
 写给来这个仓干活的智能体（和人）看的。读完这一页就能动手。
 
