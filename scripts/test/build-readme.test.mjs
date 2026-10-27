@@ -185,7 +185,7 @@ function run(args) {
 }
 
 test('CLI：生成、--check 通过；改动后 --check 退出码 1', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'platform-index-for-agents-test-'));
+  const dir = mkdtempSync(join(tmpdir(), 'agent-cosmic-tree-test-'));
   const readme = join(dir, 'README.md');
   copyFileSync(join(FIX, 'README.template.md'), readme);
   const common = ['--platforms', join(FIX, 'ok'), '--tags', TAGS_FILE, '--readme', readme];
@@ -210,7 +210,7 @@ test('CLI：生成、--check 通过；改动后 --check 退出码 1', () => {
 });
 
 test('CLI：非法卡退出码 1，报文件和行', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'platform-index-for-agents-test-'));
+  const dir = mkdtempSync(join(tmpdir(), 'agent-cosmic-tree-test-'));
   const readme = join(dir, 'README.md');
   copyFileSync(join(FIX, 'README.template.md'), readme);
   const r = run(['--platforms', join(FIX, 'bad'), '--tags', TAGS_FILE, '--readme', readme]);

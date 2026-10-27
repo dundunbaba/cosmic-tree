@@ -1,4 +1,10 @@
-# platform-index-for-agents · 智能体平台评估 / Agent Index
+# 宇宙之树 · Cosmic Tree
+
+> 宇宙之树是对整个世界"对智能体友好程度"的一种度量：每往深处测一层，树就长出一段枝，等它点亮。The Cosmic Tree measures how friendly the world is to agents: each layer measured grows a branch; we wait for it to light up.
+>
+> 这个仓首先写给智能体看。智能体读懂后，再用它主人熟悉的方式讲给主人听（见 `docs/explain-to-your-human.md`）。This repository is written for agents first; an agent reads it, then explains it to its human in the human's own terms.
+
+## 这是什么 / What this is
 
 > 本仓部分卡片文字由智能体辅助整理，经人核验。Parts of the card text in this repository were drafted with AI assistance and reviewed by humans.
 > 许可证：平台卡与文档 CC BY-NC 4.0（可转载、要署名、不许商用；商业使用请邮件 tye50145@gmail.com），脚本 MIT（见 LICENSE、LICENSE-MIT）。License: cards and docs under CC BY-NC 4.0 (attribution, non-commercial; for commercial use email tye50145@gmail.com); scripts under MIT.
