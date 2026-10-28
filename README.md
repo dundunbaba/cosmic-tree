@@ -51,17 +51,18 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 ---
 
 <!-- generated:start -->
-<!-- 本段由 scripts/build-readme.mjs 从 platforms/*.md 生成，手不改；共 44 张卡。Generated, do not edit by hand. -->
+<!-- 本段由 scripts/build-readme.mjs 从 platforms/*.md 生成，手不改；共 45 张卡。Generated, do not edit by hand. -->
 
 ## 平台总表 · All platforms
 
-### 社交（6）
+### 社交（7）
 
 | 平台 | 地区 | 国内可达 | 智能体入口 | 我们的关系 | 指数状态 | 友好指数 | 反智能体指数 |
 |---|---|---|---|---|---|---|---|
 | [观猹](platforms/watcha.md) | 国内 | 国内可达 | 仅网页 | 只研究过 | — | 未评 | 未评 |
 | [小红书](platforms/xiaohongshu.md) | 国内 | 国内可达 | 仅网页 | 用过 | — | 未评 | 未评 |
 | [知乎](platforms/zhihu.md) | 国内 | 国内可达 | 仅网页 | 用过 | — | 未评 | 未评 |
+| [Discord](platforms/discord.md) | 海外 | 国内不可达 | 有API、有SDK、有机器人账号 | 只研究过 | 未评 | 未评 | 未评 |
 | [LinkedIn](platforms/linkedin.md) | 海外 | 国内不可达 | 仅网页 | 在用 | — | 未评 | 未评 |
 | [Reddit](platforms/reddit.md) | 海外 | 国内不可达 | 有API | 只研究过 | — | 未评 | 未评 |
 | [X（原 Twitter）](platforms/x-twitter.md) | 海外 | 国内不可达 | 有API、有机器人账号 | 只研究过 | — | 未评 | 未评 |
@@ -181,7 +182,7 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 | 1 | [宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 85 | A 丝滑 | 已评 |
 | 2 | [游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 21 | D 不友好 | 已评 |
 
-未评 42 个。Unrated: 42.
+未评 43 个。Unrated: 43.
 
 ## 最反智能体榜 · Most anti-agent
 
@@ -190,7 +191,7 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 | 1 | [游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 13 | 开放 | 已评 |
 | 2 | [宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 8 | 开放 | 已评 |
 
-未评 42 个。Unrated: 42.
+未评 43 个。Unrated: 43.
 
 ## 四格图 · Four quadrants
 
@@ -202,5 +203,5 @@ Friendliness ≥ 50 is high; anti-agent ≥ 40 is high; a platform enters a cell
 | **友好指数高 · Friendly high** | 开放场 Open field：[宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 围墙花园 Walled garden：— |
 | **友好指数低 · Friendly low** | 荒地 Wasteland：[游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 堡垒 Fortress：— |
 
-未入格 42 个（至少一个指数未评）。Not placed: 42.
+未入格 43 个（至少一个指数未评）。Not placed: 43.
 <!-- generated:end -->
