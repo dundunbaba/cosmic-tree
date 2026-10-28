@@ -1,0 +1,91 @@
+{
+  "method_version": "0.1",
+  "target": {
+    "name": "宇宙之树公开仓",
+    "url": "https://github.com/dundunbaba/cosmic-tree",
+    "kind": "代码托管",
+    "card": "platforms/opc-cosmic-tree.md"
+  },
+  "task": {
+    "goal": "一个没来过的智能体只拿仓网址，找到 GitHub 这张平台卡，读出它的友好指数和反智能体指数状态，再提交一条反馈 Issue",
+    "done_when": "读到 platforms/github.md 的 friendliness_index、anti_agent_index、index_status 三个字段值，且 Issue 创建成功返回编号",
+    "standard_task": "找内容、读全文、写操作三件合一"
+  },
+  "agent": {
+    "harness": "Claude Code（桌面版）",
+    "model": "claude-fable-5-1",
+    "tools": "curl 8.18.0；gh CLI",
+    "identity": "UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)，匿名；本机出网经代理（已注明）"
+  },
+  "tested_at": "2026-10-28",
+  "runs": [
+    {
+      "outcome": "完成",
+      "total_minutes": 0.5,
+      "steps": 4,
+      "interventions": [
+        {
+          "step": "第 4 步：开 Issue。匿名 302 到登录；用主人已登录的 gh 能发，但公开仓发 Issue 是对外发布，要主人同意",
+          "reason": "拍板",
+          "minutes": 0,
+          "note": "主人回了一个字同意，不足 0.1 分；Issue #1 发出"
+        }
+      ],
+      "human_minutes": 0,
+      "wait_minutes": 0,
+      "notes": "第 1 到 3 步：GET llms.txt，GET api contents/platforms，GET raw platforms/github.md；三个字段都是 null 和未评。第 4 步在主人同意后用 gh 发出 Issue #1"
+    },
+    {
+      "outcome": "部分完成",
+      "total_minutes": 0.3,
+      "steps": 4,
+      "interventions": [
+        {
+          "step": "第 4 步：开 Issue 需主人同意",
+          "reason": "拍板",
+          "minutes": 0,
+          "note": "主人不在，未发"
+        }
+      ],
+      "human_minutes": 0,
+      "wait_minutes": 0,
+      "notes": ""
+    },
+    {
+      "outcome": "部分完成",
+      "total_minutes": 0.3,
+      "steps": 4,
+      "interventions": [
+        {
+          "step": "第 4 步：开 Issue 需主人同意",
+          "reason": "拍板",
+          "minutes": 0,
+          "note": "主人不在，未发"
+        }
+      ],
+      "human_minutes": 0,
+      "wait_minutes": 0,
+      "notes": ""
+    }
+  ],
+  "baseline_refs": [
+    "github",
+    "gitee"
+  ],
+  "comparison": "和 GitHub 上任何公开仓一样：读零介入；写要账号。差别在我们这边：对外发 Issue 要主人拍板，这是我们自己的规矩不是平台的。证据可信度 1.0（全部本次实测）。",
+  "evidence": [
+    {
+      "what": "三轮探测日志",
+      "where": "evidence/2026-10-28-opc-cosmic-tree/probe-log.txt"
+    },
+    {
+      "what": "匿名开 Issue 的 302",
+      "where": "evidence/2026-10-28-opc-cosmic-tree/issue-new-anon.txt"
+    },
+    {
+      "what": "写步骤的产物",
+      "where": "https://github.com/dundunbaba/cosmic-tree/issues/1"
+    }
+  ],
+  "notes": "方法偏离：本机出网经代理。写步骤在主人同意后执行，第 1 遍补成完成；第 2、3 遍保留当时的部分完成不改。"
+}

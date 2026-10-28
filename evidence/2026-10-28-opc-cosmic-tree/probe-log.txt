@@ -1,0 +1,38 @@
+# 探测日志 · 宇宙之树公开仓 github.com/dundunbaba/cosmic-tree · 2026-10-28
+# 探针：curl 8.18.0，UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；本机出网经 Clash（HTTP 代理 127.0.0.1:7897，TUN），不是裸连；匿名、不带 token；正常频率，三轮
+== 第 1 轮 2026-10-27T23:57:10Z
+GET https://github.com/dundunbaba/cosmic-tree  HTTP 200  0.787257s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/llms.txt  HTTP 200  0.240215s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/README.md  HTTP 200  0.470390s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/platforms/github.md  HTTP 200  0.245295s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree  HTTP 200  0.481474s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/contents/platforms  HTTP 200  0.425820s  0B
+GET https://api.github.com/search/code?q=repo:dundunbaba/cosmic-tree+Gitee  HTTP 401  0.366696s  0B
+GET https://github.com/dundunbaba/cosmic-tree/issues/new/choose  HTTP 302  0.245807s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/actions/runs?per_page=1  HTTP 200  0.499389s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/nope.md  HTTP 404  0.407976s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/nope  HTTP 404  0.388234s  0B
+== 第 2 轮 2026-10-27T23:57:15Z
+GET https://github.com/dundunbaba/cosmic-tree  HTTP 200  0.268451s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/llms.txt  HTTP 200  0.263573s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/README.md  HTTP 200  0.236230s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/platforms/github.md  HTTP 200  0.250782s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree  HTTP 200  0.248696s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/contents/platforms  HTTP 200  0.238543s  0B
+GET https://api.github.com/search/code?q=repo:dundunbaba/cosmic-tree+Gitee  HTTP 401  0.232231s  0B
+GET https://github.com/dundunbaba/cosmic-tree/issues/new/choose  HTTP 302  0.237571s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/actions/runs?per_page=1  HTTP 200  0.264171s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/nope.md  HTTP 404  0.227254s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/nope  HTTP 404  0.231571s  0B
+== 第 3 轮 2026-10-27T23:57:19Z
+GET https://github.com/dundunbaba/cosmic-tree  HTTP 200  0.305816s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/llms.txt  HTTP 200  0.226584s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/README.md  HTTP 200  0.237556s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/platforms/github.md  HTTP 200  0.226704s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree  HTTP 200  0.230770s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/contents/platforms  HTTP 200  0.384573s  0B
+GET https://api.github.com/search/code?q=repo:dundunbaba/cosmic-tree+Gitee  HTTP 401  0.229887s  0B
+GET https://github.com/dundunbaba/cosmic-tree/issues/new/choose  HTTP 302  0.250406s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/actions/runs?per_page=1  HTTP 200  0.246830s  0B
+GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/nope.md  HTTP 404  0.240494s  0B
+GET https://api.github.com/repos/dundunbaba/cosmic-tree/nope  HTTP 404  0.252977s  0B

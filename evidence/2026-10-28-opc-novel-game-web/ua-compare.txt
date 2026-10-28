@@ -1,0 +1,5 @@
+---- UA 对比：普通浏览器 UA vs 诚实 Agent UA（各 1 次） ----
+browser-UA  /  HTTP 200  0B
+agent-UA    /  HTTP 200  0B
+ClaudeBot   /  HTTP 200  0B
+GPTBot      /  HTTP 200  0B

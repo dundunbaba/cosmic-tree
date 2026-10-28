@@ -1,0 +1,3 @@
+completed	success	仓名改 cosmic-tree	Mirror to Gitee	master	push	40517687155	1m47s	2026-10-27T14:04:37Z
+completed	success	改名宇宙之树 Cosmic Tree；加给智能体的讲解指引	Mirror to Gitee	master	push	40512638212	2m19s	2026-10-27T13:30:34Z
+completed	success	首发：给智能体看的全球平台评估（41 张平台卡、两份指数模型、榜单脚本、反馈入口）	Mirror to Gitee	master	push	40196809947	8s	2026-10-25T13:15:49Z

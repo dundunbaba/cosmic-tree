@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>载体验证</title>
+<style>
+  body { margin: 0; padding: 32px 16px; background: #f6f3ec; color: #222; font: 18px/1.7 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  p { margin: 0 0 12px; }
+  .s { color: #555; font-size: 15px; }
+</style>
+</head>
+<body>
+<p>这一页能打开，说明 Makers 的静态页通了。</p>
+<p class="s" id="load">页面打开用时：计算中…</p>
+<p class="s" id="fn">云函数 /api/ok：请求中…</p>
+<script>
+  // 打开用时：从点开网址到页面加载完（给 CEO 手机流量实测用）
+  addEventListener('load', function () {
+    setTimeout(function () {
+      var nav = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
+      var ms = nav ? nav.loadEventStart : performance.timing.loadEventStart - performance.timing.navigationStart;
+      document.getElementById('load').textContent = '页面打开用时：' + (ms / 1000).toFixed(2) + ' 秒';
+    }, 0);
+  });
+  // 云函数：请求 /api/ok，看回不回 ok、要多久
+  var t0 = performance.now();
+  fetch('/api/ok?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { return r.text().then(function (t) { return { status: r.status, text: t }; }); })
+    .then(function (res) {
+      var ms = Math.round(performance.now() - t0);
+      var good = res.status === 200 && res.text.trim() === 'ok';
+      document.getElementById('fn').textContent = '云函数 /api/ok：' +
+        (good ? '回了 ok' : '不对（HTTP ' + res.status + '）') + '，用时 ' + ms + ' 毫秒';
+    })
+    .catch(function (e) {
+      document.getElementById('fn').textContent = '云函数 /api/ok：请求失败（' + e.message + '）';
+    });
+</script>
+</body>
+</html>

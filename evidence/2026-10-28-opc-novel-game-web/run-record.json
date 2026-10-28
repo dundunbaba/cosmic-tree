@@ -1,0 +1,33 @@
+{
+  "method_version": "0.1",
+  "target": {
+    "name": "游戏网页版（M1 载体验证页）",
+    "url": "https://novel-game-m1-yq4h0nag.edgeone.dev",
+    "kind": "游戏（基线库类别表暂无此类，待定）",
+    "card": "platforms/opc-novel-game-web.md"
+  },
+  "task": {
+    "goal": "打开网址，不登录试玩现成的第一章到章末（PRD 场景 A）",
+    "done_when": "看到第一章章末的下一章按钮或重生点",
+    "standard_task": "本职任务（自拟）"
+  },
+  "agent": {
+    "harness": "Claude Code（桌面版）",
+    "model": "claude-fable-5-1",
+    "tools": "curl 8.18.0",
+    "identity": "UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；本机出网经 Clash 代理（已注明）"
+  },
+  "tested_at": "2026-10-28",
+  "runs": [
+    { "outcome": "失败", "total_minutes": 0.1, "steps": 2, "interventions": [], "human_minutes": 0, "wait_minutes": 0, "notes": "GET / 200，页面只有一句这一页能打开；GET /api/ok 回 ok；没有游戏入口，任务在第 2 步止" },
+    { "outcome": "失败", "total_minutes": 0.1, "steps": 2, "interventions": [], "human_minutes": 0, "wait_minutes": 0, "notes": "同上" },
+    { "outcome": "失败", "total_minutes": 0.1, "steps": 2, "interventions": [], "human_minutes": 0, "wait_minutes": 0, "notes": "同上" }
+  ],
+  "baseline_refs": [],
+  "comparison": "无同类对标：基线库第一波没有游戏类源，且本职任务因游戏未上线无法比较。零介入但零完成。证据可信度 1.0（全部本次实测）。",
+  "evidence": [
+    { "what": "三轮探测日志", "where": "evidence/2026-10-28-opc-novel-game-web/probe-log.txt" },
+    { "what": "首页正文", "where": "evidence/2026-10-28-opc-novel-game-web/home-body.html" }
+  ],
+  "notes": "方法偏离：本机出网经代理。"
+}

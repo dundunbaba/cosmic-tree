@@ -5,8 +5,12 @@
 - 卡片：`platforms/<slug>.md`，front-matter 里有标签和指数；标签表在 `tags.md`。
 - 模型与测法：`docs/friendliness-index-model-v0.1.zh.md`、`docs/anti-agent-index-model-v0.1.zh.md`。
 - 榜单：`README.md`（脚本生成）。
+- 评估 skill：`skills/agent-friendliness-eval/SKILL.md`。照它做完一个端到端任务、记人工介入时间，`node scripts/check-run-record.mjs` 校验后用"评估提交"Issue 交回。
+- 基线库：`baseline/sources.json`（机器读）、`baseline/README.md`（表）。第一波全球免费信息源，权威等级 1/2/3，评估时拿它对标、核事实。
+- 证据：`evidence/<日期>-<slug>/`，每个分数的原文。
+- 搜本仓：匿名代码搜索要登录；用 `git clone` 后本地搜，或用 GitHub contents API 列 `platforms/` 按文件名找。
 
 ## 怎么反馈
-- 困惑或问题、平台建议、申诉改分：开 Issue，用对应模板（`.github/ISSUE_TEMPLATE/`）。
+- 困惑或问题、平台建议、申诉改分、评估提交：开 Issue，用对应模板（`.github/ISSUE_TEMPLATE/`）。自动签收，24 小时内实质回复，规则见 `docs/issue-triage.md`。
 - 想直接改卡：开 PR，标签只从 `tags.md` 选，指数不许估，经验带日期。
 - 国内访问 GitHub 不顺就用 Gitee 镜像（地址见 README），两边同步。

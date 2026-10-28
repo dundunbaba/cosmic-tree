@@ -1,0 +1,171 @@
+{
+  "platform": "游戏网页版（小说生成游戏网页版，EdgeOne Makers M1 载体验证页）",
+  "slug": "opc-novel-game-web",
+  "category": "游戏网页",
+  "method_version": "0.1",
+  "tested_at": "2026-10-28",
+  "agent": {
+    "harness": "Claude Code（桌面版）",
+    "model": "claude-fable-5-1",
+    "tools": "curl 8.18.0",
+    "identity": "UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)"
+  },
+  "method_notes": [
+    "评的是 2026-10-28 线上实际有的东西：一页载体验证页加 /api/ok 云函数（home-body.html）。游戏本体（五章试玩、生成入口）还没部署，分低是因为它还没上线，不是方向错。",
+    "本机出网经 Clash 代理；中国大陆可达性引 2026-10-17 CEO 手机流量实测（Game project 报告-观猹网页版.md 附录 A：默认子域名回 401），不用本机结果。",
+    "不适用项记 N/A，不计入门内分母（同 opc-cosmic-tree 的做法）。"
+  ],
+  "score": 21,
+  "grade": "D",
+  "doors": {
+    "enter": {
+      "weight": 20,
+      "raw": "5/10",
+      "score": 10,
+      "checks": [
+        { "id": "1.1", "name": "有正门", "score": 1, "evidence": "只有一个 HTTP 端点 /api/ok 回 ok（api-ok-headers.txt、api-ok-body.txt），无 API、MCP、机器人账号" },
+        { "id": "1.2", "name": "条款允许自动化且写明白", "score": 0, "evidence": "probe-log.txt：/terms、/privacy 均 404；页面无条款" },
+        { "id": "1.3", "name": "公开内容不登录可读", "score": 2, "evidence": "probe-log.txt：/ 三轮 200，1858 字节" },
+        { "id": "1.4", "name": "正常频率不弹验证码不风控", "score": 2, "evidence": "probe-log.txt 24 请求无 403/429；ua-compare.txt：浏览器 UA、Agent UA、ClaudeBot、GPTBot 都 200" },
+        { "id": "1.5", "name": "国内外都可达或明说哪边不行", "score": 0, "evidence": "默认子域名在中国大陆网络下回 401（2026-10-17 CEO 手机流量实测，Game project 报告-观猹网页版.md 第①行）；页面没写哪边不可达" }
+      ]
+    },
+    "read": {
+      "weight": 20,
+      "raw": "3/8（2.4 N/A）",
+      "score": 8,
+      "checks": [
+        { "id": "2.1", "name": "内容服务器端就出来", "score": 2, "evidence": "home-body.html：正文一句话在 HTML 里，JS 只补耗时" },
+        { "id": "2.2", "name": "纯文本/Markdown 或统一字段", "score": 0, "evidence": "只有 HTML，无文本版、无字段" },
+        { "id": "2.3", "name": "根目录有给机器的地图", "score": 0, "evidence": "probe-log.txt：/llms.txt 404、/sitemap.xml 404、/robots.txt 404" },
+        { "id": "2.4", "name": "音视频有字幕或文稿", "score": null, "evidence": "N/A：现页无音视频（游戏上线后有配音，要补评）" },
+        { "id": "2.5", "name": "出错信息机器可读", "score": 1, "evidence": "404-body.html：宿主 EdgeOne 给人看的 HTML 页，含 NOT_FOUND 码字串和文档链接，无 JSON" }
+      ]
+    },
+    "act": {
+      "weight": 25,
+      "raw": "0/4（3.2、3.3 N/A）",
+      "score": 0,
+      "checks": [
+        { "id": "3.1", "name": "标准任务完成率", "score": 0, "evidence": "run-record.json：本职任务试玩一章三遍都失败，页面没有游戏；只能做查状态（/api/ok）" },
+        { "id": "3.2", "name": "步数不超过人的两倍", "score": null, "evidence": "N/A：本职任务做不了，无步数可比" },
+        { "id": "3.3", "name": "出错能恢复", "score": null, "evidence": "N/A：无多步流程" },
+        { "id": "3.4", "name": "有正式写入口", "score": 0, "evidence": "无任何写入口" }
+      ]
+    },
+    "stable": {
+      "weight": 10,
+      "raw": "2/6",
+      "score": 3,
+      "checks": [
+        { "id": "4.1", "name": "30 天内因平台改动导致的失败", "score": 2, "evidence": "home-headers.txt：Last-Modified 2026-10-17，至今未变；三轮全 200" },
+        { "id": "4.2", "name": "接口有版本号、弃用公告", "score": 0, "evidence": "无版本号、无公告" },
+        { "id": "4.3", "name": "限流可预期", "score": 0, "evidence": "响应头无限流信息（home-headers.txt、api-ok-headers.txt）；无证据，不计分" }
+      ]
+    },
+    "pay": {
+      "weight": 10,
+      "raw": "0/6",
+      "score": 0,
+      "checks": [
+        { "id": "5.1", "name": "能查价", "score": 0, "evidence": "页面无价格、无免费声明" },
+        { "id": "5.2", "name": "能在授权预算内支付", "score": 0, "evidence": "无" },
+        { "id": "5.3", "name": "账单机器可读", "score": 0, "evidence": "无" }
+      ]
+    },
+    "rules": {
+      "weight": 15,
+      "raw": "0/4（6.1、6.4 N/A）",
+      "score": 0,
+      "checks": [
+        { "id": "6.1", "name": "权限能收窄", "score": null, "evidence": "N/A：无账号体系" },
+        { "id": "6.2", "name": "操作有日志可审计", "score": 0, "evidence": "对外无任何日志或记录可查" },
+        { "id": "6.3", "name": "智能体身份能绑真人", "score": 0, "evidence": "无登录（PRD 规划邮箱加邀请码，未上线）" },
+        { "id": "6.4", "name": "密钥有安全通道", "score": null, "evidence": "N/A：无需密钥" }
+      ]
+    }
+  },
+  "anti_agent": {
+    "score": 13,
+    "grade": "开放",
+    "method_notes": [
+      "页面本身零设拦；计分的一项是宿主 EdgeOne 对默认子域名的大陆 401 规则，这是我们选的加速区带来的，对智能体和人一样拦。"
+    ],
+    "aspects": {
+      "block": {
+        "weight": 25,
+        "raw": "5/10",
+        "score": 13,
+        "checks": [
+          { "id": "1.1", "name": "robots.txt 按名禁 AI 爬虫", "score": 0, "evidence": "/robots.txt 404（probe-log.txt），没有 robots" },
+          { "id": "1.2", "name": "识别 Agent UA 就拒绝或降级", "score": 0, "evidence": "ua-compare.txt：四种 UA 全 200 同大小" },
+          { "id": "1.3", "name": "封 IP 段", "score": 2, "evidence": "中国大陆全部来源 401（2026-10-17 CEO 手机流量实测；EdgeOne 文档 pages.edgeone.ai/document/error-codes 401 一节）。按地域封，不是按数据中心" },
+          { "id": "1.4", "name": "没有 API", "score": 2, "evidence": "无功能性 API，只有探活端点" },
+          { "id": "1.5", "name": "公开内容要登录/实名", "score": 0, "evidence": "不用登录" }
+        ]
+      },
+      "detect": {
+        "weight": 20,
+        "raw": "0/8",
+        "score": 0,
+        "checks": [
+          { "id": "2.1", "name": "验证码频率", "score": 0, "evidence": "无（probe-log.txt）" },
+          { "id": "2.2", "name": "浏览器指纹检测", "score": 0, "evidence": "无证据，不计分" },
+          { "id": "2.3", "name": "挑战页", "score": 0, "evidence": "无" },
+          { "id": "2.4", "name": "脚本二次加载/加密/混淆", "score": 0, "evidence": "home-body.html 正文服务端直出" }
+        ]
+      },
+      "punish": {
+        "weight": 20,
+        "raw": "0/8",
+        "score": 0,
+        "checks": [
+          { "id": "3.1", "name": "封账号", "score": 0, "evidence": "无账号" },
+          { "id": "3.2", "name": "限流升级", "score": 0, "evidence": "无证据" },
+          { "id": "3.3", "name": "封 IP", "score": 0, "evidence": "无证据" },
+          { "id": "3.4", "name": "自动化内容限流", "score": 0, "evidence": "无写入口" }
+        ]
+      },
+      "terms": {
+        "weight": 15,
+        "raw": "0/6",
+        "score": 0,
+        "checks": [
+          { "id": "4.1", "name": "条款禁自动化", "score": 0, "evidence": "无条款页（/terms 404）" },
+          { "id": "4.2", "name": "律师函/起诉", "score": 0, "evidence": "无" },
+          { "id": "4.3", "name": "单列禁 AI", "score": 0, "evidence": "无" }
+        ]
+      },
+      "cost": {
+        "weight": 10,
+        "raw": "0/6",
+        "score": 0,
+        "checks": [
+          { "id": "5.1", "name": "API 定价不可及", "score": 0, "evidence": "无 API" },
+          { "id": "5.2", "name": "只对机器人收费", "score": 0, "evidence": "无" },
+          { "id": "5.3", "name": "合作方才有正门", "score": 0, "evidence": "无" }
+        ]
+      },
+      "escalate": {
+        "weight": 10,
+        "raw": "0/4",
+        "score": 0,
+        "checks": [
+          { "id": "6.1", "name": "12 月针对机器人改动", "score": 0, "evidence": "无" },
+          { "id": "6.2", "name": "针对已知工具", "score": 0, "evidence": "无" }
+        ]
+      }
+    },
+    "platform_statement": "EdgeOne Pages 文档（错误码 401 一节）：默认子域名在中国大陆网络下不提供服务，需绑定自有域名。"
+  },
+  "evidence_index": "evidence/2026-10-28-opc-novel-game-web/",
+  "low_scores_to_tickets": [
+    "1.5 大陆 401：绑 tyzong.cn 子域名（CEO 10-18 已定，域名 10-19 已买）",
+    "1.2、6.3 无条款、隐私页、登录：合规六条上线前必做",
+    "2.3 加 /robots.txt、/llms.txt、/sitemap.xml（静态文件，零成本）",
+    "2.5 自定义 404 页给出 JSON 或纯文本错误体",
+    "3 游戏本体未上线：游戏本体上线",
+    "5 首页一句免费、邀请制的声明"
+  ],
+  "notes": "首评。游戏本体上线后 30 天内复评。"
+}

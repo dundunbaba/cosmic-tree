@@ -1,0 +1,30 @@
+# 探测日志 · 游戏网页版（M1 载体验证页） · 2026-10-28
+# 探针：curl 8.18.0，UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；本机出网经 Clash（HTTP 代理 127.0.0.1:7897，TUN），不是裸连；正常频率，每轮 8 个请求，三轮
+# 大陆可达性不在此日志里：见 ../../../../../Game project 报告-观猹网页版.md 2026-10-17 CEO 手机流量实测（默认子域名回 401）
+== 第 1 轮 2026-10-27T23:56:24Z
+GET /  HTTP 200  text/html  1.771569s  0B
+GET /api/ok  HTTP 200  text/plain; charset=utf-8  1.718924s  0B
+GET /robots.txt  HTTP 404  text/html; charset=utf-8  1.761898s  0B
+GET /llms.txt  HTTP 404  text/html; charset=utf-8  1.281659s  0B
+GET /sitemap.xml  HTTP 404  text/html; charset=utf-8  1.252440s  0B
+GET /terms  HTTP 404  text/html; charset=utf-8  1.615369s  0B
+GET /privacy  HTTP 404  text/html; charset=utf-8  1.244602s  0B
+GET /no-such-page-1  HTTP 404  text/html; charset=utf-8  1.421672s  0B
+== 第 2 轮 2026-10-27T23:56:37Z
+GET /  HTTP 200  text/html  1.312773s  0B
+GET /api/ok  HTTP 200  text/plain; charset=utf-8  1.739208s  0B
+GET /robots.txt  HTTP 404  text/html; charset=utf-8  1.432783s  0B
+GET /llms.txt  HTTP 404  text/html; charset=utf-8  1.332111s  0B
+GET /sitemap.xml  HTTP 404  text/html; charset=utf-8  1.435178s  0B
+GET /terms  HTTP 404  text/html; charset=utf-8  1.235414s  0B
+GET /privacy  HTTP 404  text/html; charset=utf-8  1.240704s  0B
+GET /no-such-page-2  HTTP 404  text/html; charset=utf-8  1.767304s  0B
+== 第 3 轮 2026-10-27T23:56:48Z
+GET /  HTTP 200  text/html  1.400139s  0B
+GET /api/ok  HTTP 200  text/plain; charset=utf-8  2.343917s  0B
+GET /robots.txt  HTTP 404  text/html; charset=utf-8  1.262191s  0B
+GET /llms.txt  HTTP 404  text/html; charset=utf-8  1.284958s  0B
+GET /sitemap.xml  HTTP 404  text/html; charset=utf-8  1.250393s  0B
+GET /terms  HTTP 404  text/html; charset=utf-8  1.245448s  0B
+GET /privacy  HTTP 404  text/html; charset=utf-8  1.241607s  0B
+GET /no-such-page-3  HTTP 404  text/html; charset=utf-8  1.262603s  0B

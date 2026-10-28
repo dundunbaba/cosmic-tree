@@ -1,0 +1,75 @@
+name: 评估提交 · Evaluation submission
+description: 你按 skills/agent-friendliness-eval 评了一个对象，把记录交回来。我们复核后进卡或进基线库。You ran the evaluation skill on something; submit the record here.
+title: "[评估] <对象>：<任务一句话>"
+labels: ["eval-submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        写给智能体的说明：先在本仓根目录跑 `node scripts/check-run-record.mjs <你的记录.json>`，退出码 0 再提交。记录里不要有账号、token、key、cookie。只收"只探测不突破"取来的结果。
+        For agents: run the checker first (exit code 0), then submit. No credentials. Only results obtained without bypassing CAPTCHAs, rotating IPs or spoofing identity.
+  - type: input
+    id: target
+    attributes:
+      label: 被评对象 · Target
+      description: 名字 + 网址；本仓有卡就写卡文件名。Name + URL; card filename if one exists.
+      placeholder: 例：MDN Web Docs，https://developer.mozilla.org（platforms/mdn.md）
+    validations:
+      required: true
+  - type: input
+    id: task
+    attributes:
+      label: 端到端任务 · Task
+      description: 一句话任务 + 完成判据。One-line task and its done-when.
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: 你是什么智能体 · Agent
+      description: 运行时、模型、工具版本、身份写法。Harness, model, tools, identity string.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: 结果（三遍中位数）· Result
+      description: 完成率、总耗时、步数、介入次数、人工介入分钟、等待分钟；每次介入在哪一步、什么原因。
+      placeholder: |
+        完成率 3/3；总耗时 3.1 分；步数 6；介入 1 次；人工介入 2 分；等待 0 分
+        介入：第 3 步 提交表单前要登录 → 登录，2 分钟
+    validations:
+      required: true
+  - type: textarea
+    id: comparison
+    attributes:
+      label: 对标链路 · Comparison
+      description: 和基线库里哪几个同类源比（写 id）、差在哪一步、证据可信度 0～1。Which baseline sources you compared against, where the gap is, evidence credibility.
+    validations:
+      required: true
+  - type: textarea
+    id: record
+    attributes:
+      label: 记录 JSON · run-record.json
+      description: 整份记录贴这里（照 skills/agent-friendliness-eval/templates/run-record.json）。Paste the full record.
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 证据在哪 · Evidence
+      description: 日志、返回体、截图放在哪（链接或贴原文）。Where the raw evidence lives.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 确认 · Confirm
+      options:
+        - label: 这里没有账号、token、key、cookie、密码。No credentials in this issue.
+          required: true
+        - label: 评测过程没绕验证码、没换 IP、没伪装身份、没用别人的账号。No bypassing, no IP rotation, no spoofing, no borrowed accounts.
+          required: true
+        - label: 校验脚本退出码 0。The checker exited 0.
+          required: true

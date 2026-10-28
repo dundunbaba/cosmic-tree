@@ -1,0 +1,9 @@
+HTTP/1.1 200 Connection established
+HTTP/1.1 200 OK
+X-GitHub-Media-Type: github.v3; format=json
+Access-Control-Expose-Headers: ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset, Warning
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 26
+X-RateLimit-Used: 34
+X-RateLimit-Resource: core
+X-RateLimit-Reset: 1793148910

@@ -1,0 +1,42 @@
+{
+  "method_version": "0.1",
+  "target": {
+    "name": "被评对象的名字",
+    "url": "https://example.org",
+    "kind": "开发者文档",
+    "card": "platforms/<slug>.md（宇宙之树里有卡就写，没有留空）"
+  },
+  "task": {
+    "goal": "一句话：要做成什么",
+    "done_when": "完成判据：看到什么就算完成",
+    "standard_task": "读全文（从：找内容/读全文/搜关键词/写操作/查状态，或自拟）"
+  },
+  "agent": {
+    "harness": "Claude Code 2.x",
+    "model": "claude-fable-5-1",
+    "tools": "curl 8.18；浏览器=内置浏览器",
+    "identity": "User-Agent 里写了 agent 身份；未用代理（用了写明）"
+  },
+  "tested_at": "2026-10-28",
+  "runs": [
+    {
+      "outcome": "完成",
+      "total_minutes": 3.5,
+      "steps": 6,
+      "interventions": [
+        { "step": "第 3 步：提交表单前要登录", "reason": "登录", "minutes": 2, "note": "主人输了账号口令" }
+      ],
+      "human_minutes": 2,
+      "wait_minutes": 0,
+      "notes": ""
+    },
+    { "outcome": "完成", "total_minutes": 3.0, "steps": 6, "interventions": [], "human_minutes": 0, "wait_minutes": 0, "notes": "第二遍已登录" },
+    { "outcome": "完成", "total_minutes": 3.1, "steps": 6, "interventions": [], "human_minutes": 0, "wait_minutes": 0, "notes": "" }
+  ],
+  "baseline_refs": ["mdn", "python-docs"],
+  "comparison": "和谁比、差在哪一步、证据可信度 0~1",
+  "evidence": [
+    { "what": "三遍探测日志", "where": "你的目录/probe-log.txt" }
+  ],
+  "notes": "方法偏离、环境限制、没跑满三遍的原因都写这里"
+}

@@ -24,15 +24,21 @@ Mainland China mirror on Gitee: `<GITEE_MIRROR_URL>` (auto-synced, identical con
 - **标签表 Tags**：`tags.md`。卡上的标签只能从这里选；按组读（类型、地区、国内可达、智能体入口、读取门槛、写入门槛……）。
 - **模型 Models**：`docs/friendliness-index-model-v0.1.zh.md`（六道门：进得去、看得懂、办得成、稳不稳、能付钱、守规矩）、`docs/anti-agent-index-model-v0.1.zh.md`（六个方面：封门、识别与拦截、惩罚、条款与法律、经济壁垒、对抗升级）。每个分数后面都要有证据。
 - **榜单与四格图 Rankings**：下面的生成区，由 `scripts/build-readme.mjs` 从卡片算出来，手不改。
+- **评估 skill**：`skills/agent-friendliness-eval/`。任何智能体照它对一个网站、工具或工作流做完一个端到端任务，记人工介入时间，对照基线库对标，用 Issue 交回来。Any agent can run it and submit the result.
+- **基线库 Baseline**：`baseline/`。第一波全球知名的免费网站与信息库，每个源一条，权威等级三级（一手权威 1.0、有编辑或同行机制 0.7、社区与聚合 0.4），评估拿它对标和核事实。Reference sources with three authority tiers.
+- **证据 Evidence**：`evidence/<日期>-<slug>/`。每个分数背后的探测日志、返回体、数据文件。Raw evidence behind every score.
 - 机器入口 Machine entry：`llms.txt`。
 
 ## 怎么反馈 · How to give feedback
 
-开 Issue，三种模板（Three issue forms）：
+开 Issue，四种模板（Four issue forms）：
 
 1. **智能体的困惑或问题 Agent question**：你在哪个平台卡在哪、试过什么。
 2. **平台建议 Platform suggestion**：推荐一个平台，说它哪里对智能体好或不好，附证据。
 3. **申诉改分 Score dispute**：哪个平台哪一项现在几分、你认为几分、证据。
+4. **评估提交 Evaluation submission**：你按评估 skill 跑完的记录 JSON，我们复核后进卡或进基线库。
+
+收到后自动签收，24 小时内实质回复；怎么接、多久回、什么不做，见 `docs/issue-triage.md`。Acknowledged automatically; substantive reply within 24 hours; triage rules in `docs/issue-triage.md`.
 
 想直接改卡就开 PR：标签只从 `tags.md` 选；指数不估，没评写 `null`；经验带日期；提交前跑 `node scripts/build-readme.mjs --check`。细则见 `CONTRIBUTING.md`。
 To edit a card, open a PR: tags only from `tags.md`; never guess an index (write `null`); date every experience; run `node scripts/build-readme.mjs --check` before committing. See `CONTRIBUTING.md`.
@@ -45,7 +51,7 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 ---
 
 <!-- generated:start -->
-<!-- 本段由 scripts/build-readme.mjs 从 platforms/*.md 生成，手不改；共 41 张卡。Generated, do not edit by hand. -->
+<!-- 本段由 scripts/build-readme.mjs 从 platforms/*.md 生成，手不改；共 44 张卡。Generated, do not edit by hand. -->
 
 ## 平台总表 · All platforms
 
@@ -141,12 +147,19 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 |---|---|---|---|---|---|---|---|
 | [飞书](platforms/feishu.md) | 全球 | 国内可达 | 有API、有CLI、有机器人账号 | 在用 | — | 未评 | 未评 |
 
-### 知识与出版（2）
+### 知识与出版（3）
 
 | 平台 | 地区 | 国内可达 | 智能体入口 | 我们的关系 | 指数状态 | 友好指数 | 反智能体指数 |
 |---|---|---|---|---|---|---|---|
 | [得到](platforms/dedao.md) | 国内 | 国内可达 | 仅网页 | 在用 | — | 未评 | 未评 |
 | [微信读书](platforms/weread.md) | 国内 | 国内可达 | 仅网页 | 用过 | — | 未评 | 未评 |
+| [宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 全球 | 国内受限 | 有API、有CLI | 自家 | 已评 | 85 | 8 |
+
+### 政务与合规（1）
+
+| 平台 | 地区 | 国内可达 | 智能体入口 | 我们的关系 | 指数状态 | 友好指数 | 反智能体指数 |
+|---|---|---|---|---|---|---|---|
+| [政策知识库查询页（OPC）](platforms/opc-policy-kb-query.md) | 国内 | — | 无入口 | 自家 | 准备评 | 未评 | 未评 |
 
 ### 工具（2）
 
@@ -155,17 +168,29 @@ To edit a card, open a PR: tags only from `tags.md`; never guess an index (write
 | [百度联盟](platforms/baidu-union.md) | 国内 | 国内可达 | 仅网页 | 只研究过 | — | 未评 | 未评 |
 | [Obsidian](platforms/obsidian.md) | 全球 | 国内可达 | 本地文件 | 在用 | — | 未评 | 未评 |
 
+### 游戏（1）
+
+| 平台 | 地区 | 国内可达 | 智能体入口 | 我们的关系 | 指数状态 | 友好指数 | 反智能体指数 |
+|---|---|---|---|---|---|---|---|
+| [游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 国内 | 国内不可达 | 仅网页 | 自家 | 已评 | 21 | 13 |
+
 ## 最友好榜 · Most agent-friendly
 
-暂无已评平台。No rated platforms yet.
+| 名次 | 平台 | 友好指数 | 等级 | 状态 |
+|---|---|---|---|---|
+| 1 | [宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 85 | A 丝滑 | 已评 |
+| 2 | [游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 21 | D 不友好 | 已评 |
 
-未评 41 个。Unrated: 41.
+未评 42 个。Unrated: 42.
 
 ## 最反智能体榜 · Most anti-agent
 
-暂无已评平台。No rated platforms yet.
+| 名次 | 平台 | 反智能体指数 | 等级 | 状态 |
+|---|---|---|---|---|
+| 1 | [游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 13 | 开放 | 已评 |
+| 2 | [宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 8 | 开放 | 已评 |
 
-未评 41 个。Unrated: 41.
+未评 42 个。Unrated: 42.
 
 ## 四格图 · Four quadrants
 
@@ -174,8 +199,8 @@ Friendliness ≥ 50 is high; anti-agent ≥ 40 is high; a platform enters a cell
 
 | | 反智能体指数低 · Anti low | 反智能体指数高 · Anti high |
 |---|---|---|
-| **友好指数高 · Friendly high** | 开放场 Open field：— | 围墙花园 Walled garden：— |
-| **友好指数低 · Friendly low** | 荒地 Wasteland：— | 堡垒 Fortress：— |
+| **友好指数高 · Friendly high** | 开放场 Open field：[宇宙之树公开仓](platforms/opc-cosmic-tree.md) | 围墙花园 Walled garden：— |
+| **友好指数低 · Friendly low** | 荒地 Wasteland：[游戏网页版（OPC）](platforms/opc-novel-game-web.md) | 堡垒 Fortress：— |
 
-未入格 41 个（至少一个指数未评）。Not placed: 41.
+未入格 42 个（至少一个指数未评）。Not placed: 42.
 <!-- generated:end -->

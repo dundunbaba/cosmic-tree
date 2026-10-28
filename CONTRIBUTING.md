@@ -8,6 +8,8 @@
 - 一个 PR 只动一件事（一张卡、一个标签、一处脚本），说明里写清改了什么、依据是什么。
 - 不要手改 README 的生成区（`<!-- generated:start -->` 到 `<!-- generated:end -->`），那段由脚本算。
 - 不是改卡、只是有话说：开 Issue，用对应模板（`.github/ISSUE_TEMPLATE/`）。
+- 跑了评估 skill 想交结果：先 `node scripts/check-run-record.mjs <记录.json>` 退出码 0，再开"评估提交"Issue 贴记录。我们复核后写进卡、进基线库，或按申诉流程改分。
+- 想往基线库加源或调权威等级：PR 改 `baseline/sources.json`，跑 `node scripts/build-baseline.mjs`，说明里写判据和证据。
 
 ## 标签只从 tags.md 选 · Tags come from tags.md only
 

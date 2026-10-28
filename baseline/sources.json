@@ -1,0 +1,1700 @@
+[
+  {
+    "id": "wikipedia",
+    "name": "Wikipedia",
+    "name_zh": "维基百科",
+    "home": "https://www.wikipedia.org",
+    "kind": "百科与知识图谱",
+    "what": "志愿者协作编写的多语种百科全书；智能体常拿它查概念、人物、事件的背景与摘要，并取页面里的 Wikidata 条目号。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内不可达",
+    "cn_reach_why": "按公开常识，维基百科各语种站自 2019 年起整体被大陆屏蔽，直连不通（本机结果不作证据）。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "有编辑规则、引用要求和社区校对，但任何人可改，是二手汇编不是一手来源；用前看页面引用的原始出处。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 未按名禁 GPTBot、ClaudeBot、anthropic-ai、CCBot（全文搜索无命中），只点名禁了 MJ12bot 等少数爬虫",
+        "url": "https://en.wikipedia.org/robots.txt",
+        "quote": "User-agent: MJ12bot / Disallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 的 Crawl-delay 只给 SemrushBot（5 秒），对通配 * 没有 Crawl-delay",
+        "url": "https://en.wikipedia.org/robots.txt",
+        "quote": "User-agent: SemrushBot / Crawl-delay: 5",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://en.wikipedia.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方 API 礼仪要求带含联系方式的 User-Agent、请求串行",
+        "url": "https://www.mediawiki.org/wiki/API:Etiquette",
+        "quote": "Set an informative User-Agent string with contact information, or you may be IP-blocked without notice. Make your requests in series rather than in parallel",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "有整库下载（dumps），下载有限速和并发上限",
+        "url": "https://dumps.wikimedia.org/",
+        "quote": "Downloads are also rate limited and capped at 3 connections per-IP.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "用诚实 UA 调 REST 摘要接口返回 200，无需 key",
+        "url": "https://en.wikipedia.org/api/rest_v1/page/summary/Python_(programming_language)",
+        "quote": "{\"type\":\"standard\",\"title\":\"Python (programming language)\",...,\"wikibase_item\":\"Q28865\"}",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "使用条款把 API 使用与 UA 政策、机器人政策挂钩；滥用或扰乱性的自动化访问被禁",
+        "url": "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use",
+        "quote": "Engaging in automated uses of the Project Websites that are abusive or disruptive of the services, violate acceptable usage policies where available, or have not been approved by the Wikimedia community",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "wikidata",
+    "name": "Wikidata",
+    "name_zh": "维基数据",
+    "home": "https://www.wikidata.org",
+    "kind": "百科与知识图谱",
+    "what": "维基媒体运营的开放知识图谱，给人物、地点、概念一个稳定编号（Q 号）并存结构化属性；智能体常拿它做实体消歧、跨库对齐和 SPARQL 查询。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内不可达",
+    "cn_reach_why": "维基媒体系站点在大陆整体被屏蔽（按公开常识）；wikidata.org 单独的屏蔽情况未单独核实，按同系处理。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "结构化数据由社区维护，条目有来源声明和编辑规则，是受监督的开放数据汇编；单条陈述质量不一，关键事实要看引用。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 与 Wikipedia 同一份：未按名禁 GPTBot、ClaudeBot、anthropic-ai、CCBot；Crawl-delay 只给 SemrushBot",
+        "url": "https://www.wikidata.org/robots.txt",
+        "quote": "User-agent: SemrushBot / Crawl-delay: 5",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://www.wikidata.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方数据访问页列出 Entity JSON、SPARQL 查询服务和 dump 三条路",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+        "quote": "The Wikidata Query Service (WDQS) is Wikidata's own SPARQL endpoint.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方提供整库 dump",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+        "quote": "Wikidata dumps are complete exports of all the Entities in Wikidata: https://dumps.wikimedia.org",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "限频写法：遇到 429 要停并看 Retry-After",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Data_access",
+        "quote": "et a 429 Too Many Requests response, stop sending further requests for a while (see the Retry-After response header).",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "结构化数据是 CC0",
+        "url": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+        "quote": "structured data (i.e. the main, Property, Lexeme, and EntitySchema namespaces) is released into the public domain under Creative Commons Zero",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "用诚实 UA 调 wbgetentities 返回 200 且 success:1，无需 key",
+        "url": "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q42&props=labels&languages=en&format=json",
+        "quote": "{\"entities\":{\"Q42\":{\"type\":\"item\",\"id\":\"Q42\",\"labels\":{}}},\"success\":1}",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款：API 使用要遵守 UA 政策、机器人政策、API 礼仪",
+        "url": "https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use",
+        "quote": "By using our APIs, you agree to abide by all applicable policies governing the use of the APIs, which include but are not limited to the User-Agent Policy , the Robot Policy , and the API:Etiquette",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "internet-archive",
+    "name": "Internet Archive / Wayback Machine",
+    "name_zh": "互联网档案馆 / 时光机",
+    "home": "https://archive.org",
+    "kind": "档案与数字图书馆",
+    "what": "非营利数字图书馆和网页存档（Wayback Machine）；智能体常拿它查网页历史快照、找已失效链接的存档、下载公有领域书籍与资料。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识，archive.org 在大陆时通时断，web.archive.org 常被限；不属长期稳定可达。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "有SDK",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "保存的是原始页面与原件扫描，内容出错追到原发布方，馆方只负责保存；属原始档案。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对通配爬虫只禁 /control/ 和 /report/，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://archive.org/robots.txt",
+        "quote": "User-agent: * / Disallow: /control/ / Disallow: /report/",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://archive.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Wayback 可用性接口用诚实 UA 返回 200，无需 key",
+        "url": "https://archive.org/wayback/available?url=example.com",
+        "quote": "{\"url\": \"example.com\", \"archived_snapshots\": {\"closest\": {\"status\": \"200\", \"available\": true, ...",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "开发者门户说明了数据访问与集成入口，并设有专门的机器人与自动化访问页和 Python 库",
+        "url": "https://archive.org/developers/",
+        "quote": "This portal contains information to help you access data from, integrate with, or contribute to the Internet Archive.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "开发者门户导航里有 “Bots, LLMs, and Automated Access” 一页（本次因每站 6 次请求上限没有读它，具体限频与条款原文未读到，按“有限”保守判断）",
+        "url": "https://archive.org/developers/bots.html",
+        "quote": "导航条目：Bots, LLMs, and Automated Access；The Internet Archive Python Library（未读该页正文）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "使用条款页是纯 JS 渲染，curl 取不到正文，条款原文未读到",
+        "url": "https://archive.org/about/terms",
+        "quote": "Javascript is required for this site. Consider enabling Javascript or upgrading to a modern browser.",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "stackoverflow",
+    "name": "Stack Overflow (Stack Exchange)",
+    "name_zh": "栈溢出（Stack Exchange 网络）",
+    "home": "https://stackoverflow.com",
+    "kind": "社区问答",
+    "what": "程序员问答社区，属 Stack Exchange 网络；智能体常拿它查报错解法、API 用法和高票答案，也走 Stack Exchange API 取结构化数据。",
+    "free": "免费额度",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识 stackoverflow.com 在大陆多数时候能打开（速度时快时慢），未见长期整体屏蔽；api.stackexchange.com 未单独核实。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "有MCP",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "有投票、采纳、编辑和版主机制，高票答案有同行校正；但答案会过期，也可能错，是二手经验汇编。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 用诚实 UA 取到的是 HTTP 418（Cloudflare 挡），但正文给出：全站 Disallow，并带 AI 训练和搜索都不许的声明；遇 418 即停，没有换 UA 重试",
+        "url": "https://stackoverflow.com/robots.txt",
+        "quote": "User-agent: * / Content-signal: search=no, ai-train=no / Disallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://stackoverflow.com/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Stack Exchange API 无 key 的额度是每天 300 次；带 key 默认每天 10000",
+        "url": "https://api.stackexchange.com/2.3/info?site=stackoverflow",
+        "quote": "\"quota_max\":300,\"quota_remaining\":299",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 限频写法：单 IP 每秒超过 30 次会被丢弃，并要遵守 backoff 字段",
+        "url": "https://api.stackexchange.com/docs/throttle",
+        "quote": "If a single IP is making more than 30 requests a second, new requests will be dropped.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款禁止在 API 和 CC 数据包之外抓取公开内容用于个人非商业以外的用途",
+        "url": "https://stackoverflow.com/legal/terms-of-service/public",
+        "quote": "Any other downloading, copying, or storing of any public Network Content (other than Subscriber Content or content made available via the Stack Overflow API) for other than personal, noncommercial use is expressly prohibited without prior written permission",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款承认有 CC 数据包可下载",
+        "url": "https://stackoverflow.com/legal/terms-of-service/public",
+        "quote": "downloading the Creative Commons Data Dump, you agree to be bound by the terms of that license.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款页页脚列有 MCP 服务器使用条款，说明官方有 MCP 服务",
+        "url": "https://stackoverflow.com/legal/terms-of-service/public",
+        "quote": "MCP Server Terms of Use",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "mdn",
+    "name": "MDN Web Docs",
+    "name_zh": "MDN 网络文档",
+    "home": "https://developer.mozilla.org",
+    "kind": "开发者文档",
+    "what": "Mozilla 与社区共同维护的 Web 技术文档（HTML、CSS、JavaScript、Web API）；智能体常拿它查前端接口的标准写法和浏览器兼容性。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识 developer.mozilla.org 在大陆可访问（偶尔慢）；另有社区中文翻译。",
+    "agent_entry": [
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "未提",
+    "authority": {
+      "tier": 2,
+      "why": "内容由 Mozilla 与社区协作撰写，有编辑指南和评审，是对标准与实现的二手汇编；规范原文在 W3C/WHATWG/ECMA。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对通配爬虫只禁 /api/、/*/files/、/media，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://developer.mozilla.org/robots.txt",
+        "quote": "User-agent: * / Disallow: /api/ / Disallow: /*/files/ / Disallow: /media",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://developer.mozilla.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "内容整库开源在 GitHub，可直接克隆",
+        "url": "https://github.com/mdn/content",
+        "quote": "The official source for MDN Web Docs content.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "内容许可是 CC-BY-SA，代码示例是 CC0",
+        "url": "https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Attrib_copyright_license",
+        "quote": "Unless otherwise indicated, the content is available under the terms of the Creative Commons Attribution-ShareAlike license (CC-BY-SA), v2.5 or any later version.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Mozilla 网站通用条款里搜 automat/scrap/robot/crawl 无命中，对自动化访问未提",
+        "url": "https://www.mozilla.org/en-US/about/legal/terms/mozilla/",
+        "quote": "（全文搜索无命中）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "python-docs",
+    "name": "Python Documentation",
+    "name_zh": "Python 官方文档",
+    "home": "https://docs.python.org",
+    "kind": "开发者文档",
+    "what": "Python 语言与标准库的官方文档；智能体常拿它核对标准库函数签名、语言行为和版本差异。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识 docs.python.org 在大陆可访问（偶尔慢），另有社区中文镜像。",
+    "agent_entry": [
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "未提",
+    "authority": {
+      "tier": 1,
+      "why": "Python 软件基金会和核心开发者自己写的官方文档，与语言实现同源，出错追到项目本身。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 只对通配爬虫禁 /dev、/release 和已停止维护的旧版本目录，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://docs.python.org/robots.txt",
+        "quote": "User-agent: * / Disallow: /dev / Disallow: /release",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://docs.python.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方提供整套文档打包下载（HTML、纯文本、EPUB 等）",
+        "url": "https://docs.python.org/3/download.html",
+        "quote": "Download an archive containing all the documentation for this version of Python",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "许可页标明文档里的代码用零条款 BSD",
+        "url": "https://docs.python.org/3/license.html",
+        "quote": "ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON DOCUMENTATION",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "文档站没有专门的自动化访问条款（本次未检出），按“未提”记",
+        "url": "https://docs.python.org/3/license.html",
+        "quote": "（许可页只谈许可，无自动化访问条款）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "npm",
+    "name": "npm registry",
+    "name_zh": "npm 软件包注册中心",
+    "home": "https://www.npmjs.com",
+    "kind": "软件包与模型仓",
+    "what": "JavaScript/Node.js 的官方包注册中心；智能体常拿它查包的最新版本、依赖、许可证和下载地址，走 registry.npmjs.org 的公开接口。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识 registry.npmjs.org 大陆能连但慢且不稳，国内普遍改用 npmmirror 镜像。",
+    "agent_entry": [
+      "有API"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "包由发布者自己上传，元数据和 tarball 完整性哈希由注册中心签名保存，出错追到发布者；是软件包注册中心。"
+    },
+    "evidence": [
+      {
+        "claim": "registry 主机的 /robots.txt 实际返回的是一个叫 robots.txt 的 npm 包元数据，说明 registry 没有自己的 robots.txt",
+        "url": "https://registry.npmjs.org/robots.txt",
+        "quote": "{\"_id\":\"robots.txt\",\"name\":\"robots.txt\",\"dist-tags\":{\"latest\":\"1.1.0\"},...",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "网站 www.npmjs.com 的 robots.txt 对诚实 UA 返回 403 Cloudflare 质询页，停手，未读到网站 robots 内容",
+        "url": "https://www.npmjs.com/robots.txt",
+        "quote": "<title>Just a moment...</title>（HTTP 403）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "registry /llms.txt 返回 404",
+        "url": "https://registry.npmjs.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "公开读接口无需 key：用诚实 UA 取 left-pad/latest 返回 200",
+        "url": "https://registry.npmjs.org/left-pad/latest",
+        "quote": "{\"bugs\":{\"url\":\"https://github.com/stevemao/left-pad/issues\"},\"dist\":{\"shasum\":...,\"tarball\":\"https://registry.npmjs.org/left-pad/-/left-pad-1.3.0.tgz\"...",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方有公开注册中心接口文档",
+        "url": "https://raw.githubusercontent.com/npm/registry/main/docs/REGISTRY-API.md",
+        "quote": "# Public Registry API",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款：网站禁自动化访问，但允许经公开 API 复制注册中心数据",
+        "url": "https://docs.npmjs.com/policies/open-source-terms/",
+        "quote": "You will not automate access to, use, or monitor the Website, such as with a web crawler, browser plug-in or add-on, or other computer program that is not a web browser. You may replicate data from the Public Registry using the Public APIs per this Agreement.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "接口限频数值在本次读到的文档里没有写（未知）",
+        "url": "https://raw.githubusercontent.com/npm/registry/main/docs/REGISTRY-API.md",
+        "quote": "（文档未写限频）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "pypi",
+    "name": "PyPI",
+    "name_zh": "PyPI 软件包注册中心",
+    "home": "https://pypi.org",
+    "kind": "软件包与模型仓",
+    "what": "Python 官方第三方包索引；智能体常拿它查包的版本、依赖、许可证，用 JSON API 取元数据，pip 装包也从这里下。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识 pypi.org 大陆能连但慢，国内普遍用清华、阿里等镜像。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "允许",
+    "authority": {
+      "tier": 1,
+      "why": "包由发布者上传，注册中心保存元数据和文件哈希，出错追到发布者；是软件包注册中心。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对通配爬虫禁 /simple/、/packages/、/pypi/*/json、/search*，未按名禁 AI 爬虫，无 Crawl-delay（API 文档却鼓励程序调用 JSON 接口；因 robots 禁该路径，本次没有实际调用）",
+        "url": "https://pypi.org/robots.txt",
+        "quote": "User-agent: * / Disallow: /simple/ / Disallow: /pypi/*/json / Disallow: /search*",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://pypi.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方文档有 JSON API",
+        "url": "https://docs.pypi.org/api/json/",
+        "quote": "Route: GET /pypi/<project>/json Returns metadata (info) about an individual",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "文档写明边缘不限频，但保留限频权利",
+        "url": "https://docs.pypi.org/api/",
+        "quote": "Due to the heavy caching and CDN use, there is currently no rate limiting of PyPI APIs at the edge.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "文档目录列有 BigQuery 数据集等公开数据",
+        "url": "https://docs.pypi.org/api/",
+        "quote": "APIs and Datasets … Index API JSON API Upload API Integrity API Stats API BigQuery Datasets RSS Feeds",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "使用条款页未检出自动化访问限制（搜 automat/scrap/robot/crawl 无命中）",
+        "url": "https://policies.python.org/pypi.org/Terms-of-Use/",
+        "quote": "（全文搜索无命中）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "huggingface",
+    "name": "Hugging Face Hub",
+    "name_zh": "Hugging Face 模型仓",
+    "home": "https://huggingface.co",
+    "kind": "软件包与模型仓",
+    "what": "开源模型、数据集和演示应用的托管与分发平台；智能体常拿它搜模型、读模型卡、下载权重和数据集，走 Hub API 或 huggingface_hub 库。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "国内不可达",
+    "cn_reach_why": "按公开常识 huggingface.co 在大陆直连基本不可用，国内普遍走 hf-mirror 等镜像。",
+    "agent_entry": [
+      "有API",
+      "有SDK",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "允许",
+    "authority": {
+      "tier": 1,
+      "why": "模型与数据由上传者自己发布，仓库历史和模型卡可追到发布账号；属模型仓，但任何人可上传，要认准官方组织账号。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对所有爬虫 Allow: /，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://huggingface.co/robots.txt",
+        "quote": "User-agent: * / Allow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://huggingface.co/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Hub API 用诚实 UA、不带 key 返回 200",
+        "url": "https://huggingface.co/api/models?limit=1",
+        "quote": "[{\"_id\":\"6ad2e0265a59c8bc18707765\",\"id\":\"deepseek-ai/DeepSeek-V4.1-Flash-1017\",\"likes\":3375,...",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方限频文档：对所有请求限频，分 Hub API、文件解析下载等几类",
+        "url": "https://huggingface.co/docs/hub/rate-limits",
+        "quote": "To protect our platform’s integrity and ensure availability to as many AI community members as possible, we enforce rate limits on all requests made to the Hugging Face Hub.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 文档：所有调用受全站限频，要更高额度需升级账号",
+        "url": "https://huggingface.co/docs/hub/api",
+        "quote": "All API calls are subject to the HF-wide Rate limits. Upgrade your account if you need elevated, large-scale access.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "文档侧栏列有 Hub Python Library（官方 SDK）",
+        "url": "https://huggingface.co/docs/hub/api",
+        "quote": "侧栏条目：Hub Python Library",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "服务条款页未检出专门的自动化访问条款（搜 automat/scrap/robot/crawl 无相关命中）",
+        "url": "https://huggingface.co/terms-of-service",
+        "quote": "（无相关命中）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "openstreetmap",
+    "name": "OpenStreetMap",
+    "name_zh": "开放街图",
+    "home": "https://www.openstreetmap.org",
+    "kind": "地图与地理",
+    "what": "全球志愿者共建的开放地图数据库（ODbL 许可）；智能体常拿它做地理编码、查地点与路网，批量用要下载 planet 数据而不是爬站。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识 openstreetmap.org 在大陆能打开但时慢，图块与服务不稳；未见整体封锁。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "数据由志愿者采集，有编辑规则、变更集审查和社区校对，是受监督的开放数据汇编；各地区完整度和准确度不一。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 开头的注释劝大家别爬站，改下载 planet 数据，爬取会被封 IP",
+        "url": "https://www.openstreetmap.org/robots.txt",
+        "quote": "Scraping puts a high load on our donated resources and will lead to your IP being blocked.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 对通配爬虫禁 /api/、/node/、/way/、/search 等多个路径，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://www.openstreetmap.org/robots.txt",
+        "quote": "User-agent: * / Disallow: /api/ / Disallow: /search",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://www.openstreetmap.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 使用政策：编辑 API 不给只读用途，要带真实 UA，最多 2 个下载线程",
+        "url": "https://operations.osmfoundation.org/policies/api/",
+        "quote": "The editing API is provided in order to edit the map data, not for read-only purposes or projects.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 使用政策的技术要求",
+        "url": "https://operations.osmfoundation.org/policies/api/",
+        "quote": "Valid User-Agent identifying application and version. Faking another app’s User-Agent WILL get you blocked.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Nominatim 地理编码限每秒 1 次",
+        "url": "https://operations.osmfoundation.org/policies/nominatim/",
+        "quote": "No heavy uses (an absolute maximum of 1 request per second ).",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "提供整库 planet 下载",
+        "url": "https://planet.openstreetmap.org/",
+        "quote": "The files found here are regularly-updated, complete copies of the OpenStreetMap database.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "数据许可 ODbL，使用要署名",
+        "url": "https://www.openstreetmap.org/copyright",
+        "quote": "OpenStreetMap is open data, licensed under the Open Data Commons Open Database License (ODbL) by the OpenStreetMap Foundation (OSMF).",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "owid",
+    "name": "Our World in Data",
+    "name_zh": "用数据看世界",
+    "home": "https://ourworldindata.org",
+    "kind": "开放数据",
+    "what": "牛津大学相关团队整理的全球发展数据与图表（健康、能源、收入等）；智能体常拿它取现成的长期时间序列，用图表 URL 加 .csv 直接下载。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "未知",
+    "cn_reach_why": "没有可靠的公开常识能说清 ourworldindata.org 在大陆是否稳定可达，标未知。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "允许",
+    "authority": {
+      "tier": 2,
+      "why": "数据多来自联合国、世界银行等机构，由编辑团队清洗并注明来源；有编辑把关但属二手汇编，引用时要同时写原始来源。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 只有一行 Sitemap，没有任何 Disallow，也没有按名禁 AI 爬虫",
+        "url": "https://ourworldindata.org/robots.txt",
+        "quote": "Sitemap: https://ourworldindata.org/sitemap.xml",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://ourworldindata.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "图表 URL 加 .csv 直接取数，不需要 key",
+        "url": "https://ourworldindata.org/grapher/life-expectancy.csv?v=1&csvType=filtered&useColumnShortNames=true&country=~OWID_WRL",
+        "quote": "entity,code,year,life_expectancy_0 / World,OWID_WRL,1770,28.5",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方 FAQ 明说有 API",
+        "url": "https://ourworldindata.org/faqs",
+        "quote": "Do you have an API? Yes! … we offer direct URLs to access data in CSV format and comprehensive metadata in JSON format.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "数据许可 CC BY，引用即可",
+        "url": "https://ourworldindata.org/faqs",
+        "quote": "Data produced by us falls under our permissive CC BY license ; you have permission to use, reproduce, and distribute it, provided that you cite us.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "技术文档列有 Charts API、Tables API、Indicators API、Search API 四个数据接口（限频数字未读到）",
+        "url": "https://docs.owid.io/projects/etl/api/",
+        "quote": "For now, we provide four main data APIs: Charts API",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "worldbank",
+    "name": "World Bank Open Data",
+    "name_zh": "世界银行开放数据",
+    "home": "https://data.worldbank.org",
+    "kind": "开放数据",
+    "what": "世界银行公开的各国发展指标与项目数据（GDP、人口、贫困等，含 WDI）；智能体常拿它查国家级宏观指标，走 Indicators API 取 JSON。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识 worldbank.org 与 data.worldbank.org 在大陆可访问（偶尔慢）；api.worldbank.org 未单独核实。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "国际机构自己发布并为口径负责；但多数指标转自各国统计机构，引用时要同时写原始来源。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对所有爬虫 Allow: /，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://data.worldbank.org/robots.txt",
+        "quote": "User-agent: * / Allow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://data.worldbank.org/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Indicators API 不带 key 返回 200",
+        "url": "https://api.worldbank.org/v2/country/CHN/indicator/NY.GDP.MKTP.CD?format=json&per_page=2",
+        "quote": "[{\"page\":1,\"pages\":33,\"per_page\":2,\"total\":66,\"sourceid\":\"2\",\"lastupdated\":\"2026-10-08\"},[{\"indicator\":{\"id\":\"NY.GDP.MKTP.CD\",\"value\":\"GDP (current US$)\"}...",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方有 Indicators API 文档页（限频数字未读到）",
+        "url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+        "quote": "About the Indicators API Documentation – World Bank Data Help Desk",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "网站条款：API 是取用站内材料的工具；非数据集材料只许非商业用途，数据集另有各自条款",
+        "url": "https://www.worldbank.org/ext/en/legal/terms-conditions",
+        "quote": "you may use the APIs to facilitate certain non-commercial uses of the Materials in accordance with these Terms and Conditions.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "数据集许可细节（如 CC BY 4.0）的页面是纯 JS 渲染，本次没读到（未知）",
+        "url": "https://datacatalog.worldbank.org/public-licenses",
+        "quote": "（curl 取不到正文）",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "hackernews",
+    "name": "Hacker News",
+    "name_zh": "黑客新闻",
+    "home": "https://news.ycombinator.com",
+    "kind": "新闻与聚合",
+    "what": "Y Combinator 运营的技术与创业链接投票社区；智能体常拿它看科技圈热点和讨论，走 Firebase 公开 API 取帖子与评论。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识 news.ycombinator.com 在大陆时通时断；官方 API 托管在 Google Firebase（firebaseio.com），大陆多半连不上。",
+    "agent_entry": [
+      "有API",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 3,
+      "why": "内容是用户投的链接和评论，排序靠投票，没有事实核查；只能当线索，用前要回到原文复核。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对所有爬虫设 Crawl-delay 30 秒，并禁登录、投票、回复等动作路径；未按名禁 AI 爬虫",
+        "url": "https://news.ycombinator.com/robots.txt",
+        "quote": "User-Agent: * / Crawl-delay: 30 / Disallow: /login",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://news.ycombinator.com/llms.txt",
+        "quote": "HTTP 404（无 llms.txt）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方 API 文档写明目前不限频",
+        "url": "https://raw.githubusercontent.com/HackerNews/API/master/README.md",
+        "quote": "There is currently no rate limit.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Firebase 接口不带 key 返回 200",
+        "url": "https://hacker-news.firebaseio.com/v0/maxitem.json",
+        "quote": "50267661",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "Y Combinator 站点条款禁止抓取站点内容（API 另当别论）",
+        "url": "https://www.ycombinator.com/legal/",
+        "quote": "you agree not to modify, copy, frame, scrape, rent, lease, loan, sell, distribute or create derivative works based on the Site or the Site Content",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "name_zh": "红迪网",
+    "home": "https://www.reddit.com",
+    "kind": "新闻与聚合",
+    "what": "按话题分版块的社区论坛；智能体常拿它找用户真实使用经验、产品口碑和问题讨论，官方推荐走带认证的 Data API。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "国内不可达",
+    "cn_reach_why": "按公开常识 reddit.com 在大陆被屏蔽，直连不通。",
+    "agent_entry": [
+      "有API",
+      "robots限制"
+    ],
+    "llms_txt": "200（返回的是反爬质询页，不是 llms.txt）",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 3,
+      "why": "内容是用户发帖与评论，靠投票排序，没有事实核查；只能当经验线索，用前要复核。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对所有爬虫全站 Disallow，并指向公共内容政策",
+        "url": "https://www.reddit.com/robots.txt",
+        "quote": "User-agent: * / Disallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 注释写明开放不等于可滥用公共内容，使用与访问限制见公共内容政策",
+        "url": "https://www.reddit.com/robots.txt",
+        "quote": "Reddit believes in an open internet, but not the misuse of public content.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 HTTP 200，但正文是 JS 自动提交 solution 表单的反爬质询页，不是 llms.txt；视为没有，不去破解",
+        "url": "https://www.reddit.com/llms.txt",
+        "quote": "<title>Reddit</title> + 脚本自动填 solution 表单（质询页）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "公开 JSON（/r/programming/.json）对诚实 UA 返回 403，停手",
+        "url": "https://www.reddit.com/r/programming/.json?limit=1",
+        "quote": "You've been blocked by network security. If you think you've been blocked by mistake, file a ticket below and we'll look into it.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方 Data API 维基与公共内容政策页对诚实 UA 都返回 403 质询页，条款原文没读到",
+        "url": "https://support.reddithelp.com/hc/en-us/articles/16160319875092-Reddit-Data-API-Wiki",
+        "quote": "<title>Just a moment...</title>（HTTP 403）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "限频数字只有二手来源（2023 年社区帖转述，可能已变）：带 OAuth 每客户端每分钟 100 次，不带每分钟 10 次",
+        "url": "https://reddit.rtrace.io/r/redditdev/comments/13wsiks/api_update_enterprise_level_tier_for_large_scale/jmo7dah/?context=3",
+        "quote": "if you are using OAuth for authentication, the rate limit is 100 queries per minute per OAuth client ID. If you are not using OAuth for authentication, the rate limit is 10 queries per minute.",
+        "date": "2026-10-28"
+      }
+    ],
+    "checked_at": "2026-10-28"
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "arxiv",
+    "name": "arXiv",
+    "name_zh": "arXiv 预印本",
+    "home": "https://arxiv.org",
+    "kind": "学术与论文",
+    "what": "康奈尔大学运营的开放预印本库，覆盖物理、数学、计算机等；智能体常拿它查论文原文、摘要和元数据。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识，arxiv.org 国内通常可直接访问（偶有变慢），未发现整站封锁。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "论文由作者自己提交原文，出错能追到作者；但未经同行评议，引用结论时要注意预印本身份。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 未按名禁 GPTBot/ClaudeBot/anthropic-ai/CCBot；对 * 设 Crawl-delay 15，且只放行 /abs /pdf /html /list 等少数路径，Disallow 含 /api",
+        "url": "https://arxiv.org/robots.txt",
+        "quote": "User-agent: *\nCrawl-delay: 15",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 开头声明不允许无差别自动下载",
+        "url": "https://arxiv.org/robots.txt",
+        "quote": "# Indiscriminate automated downloads from this site are not permitted",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://arxiv.org/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 条款：老接口（OAI-PMH、RSS、arXiv API）限频，每 3 秒最多 1 次、单连接",
+        "url": "https://info.arxiv.org/help/api/tou.html",
+        "quote": "When using the legacy APIs (including OAI-PMH, RSS, and the arXiv API), make no more than one request every three seconds, and limit requests to a single connection at a time.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款允许取回、存储、转换元数据",
+        "url": "https://info.arxiv.org/help/api/tou.html",
+        "quote": "Retrieve, store, transform, and share descriptive metadata about arXiv e-prints.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "有批量数据下载页（元数据、OAI-PMH、S3 全文）",
+        "url": "https://info.arxiv.org/help/bulk_data.html",
+        "quote": "Bulk Access to Metadata and Full Text",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "pubmed",
+    "name": "PubMed",
+    "name_zh": "PubMed 生物医学文献库",
+    "home": "https://pubmed.ncbi.nlm.nih.gov",
+    "kind": "学术与论文",
+    "what": "美国国家医学图书馆（NLM/NCBI）的生物医学文献索引，4000 多万条记录；智能体常通过 E-utilities 接口检索文献与摘要。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识，NCBI 站点国内一般可访问，速度时有波动。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "政府机构 NLM 自己维护的文献索引，记录由期刊与出版方提交，出错能追到 NLM 或出版方。"
+    },
+    "evidence": [
+      {
+        "claim": "pubmed 站点 robots.txt 对 * 设 Crawl-delay 1，只禁部分接口与功能路径，未按名禁 AI 爬虫",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/robots.txt",
+        "quote": "User-agent: *\nCrawl-delay: 1\nDisallow: /api",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "E-utilities 无需 key 即可调用（einfo 返回 pubmed 记录数 41356263）",
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi?db=pubmed&retmode=json",
+        "quote": "\"dbname\":\"pubmed\",...\"count\":\"41356263\"",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "NCBI 脚本调用规范：限频每秒 3 次",
+        "url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+        "quote": "Make no more than 3 requests every 1 second.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "批量请求建议在周末或美东夜间运行",
+        "url": "https://www.ncbi.nlm.nih.gov/home/about/policies/",
+        "quote": "Run retrieval scripts on weekends or between 9 pm and 5 am Eastern Time weekdays for any series of more than 100 requests.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "有 FTP 与 E-utilities 两种数据获取方式",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/download/",
+        "quote": "PubMed data are available via our FTP servers and via the E-utilities API.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "www.ncbi.nlm.nih.gov/books/NBK25497/（E-utilities 手册页）对诚实 UA 返回 reCAPTCHA 挑战页（HTTP 200，内容是验证码），已停手未再试",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK25497/",
+        "quote": "Checking your browser - reCAPTCHA",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "crossref",
+    "name": "Crossref",
+    "name_zh": "Crossref 学术 DOI 注册库",
+    "home": "https://www.crossref.org",
+    "kind": "学术与论文",
+    "what": "非营利 DOI 注册机构，开放数百万篇论文的元数据（作者、引用、撤稿等）；智能体常用 REST API 按 DOI 或关键词查文献元数据。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识，crossref.org 与 api.crossref.org 国内一般可访问（API 偶有变慢）。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "有llms.txt",
+      "robots允许"
+    ],
+    "llms_txt": "200（www.crossref.org；api.crossref.org 为 404）",
+    "automation_terms": "允许",
+    "authority": {
+      "tier": 1,
+      "why": "元数据由出版方（成员）自己登记，Crossref 是 DOI 的注册主体；它自己声明只证明记录存在，不证明论文可信。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对 * 全站放行，仅禁少数内部路径，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://www.crossref.org/robots.txt",
+        "quote": "User-agent: *\nAllow: /\nDisallow: /_",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "www.crossref.org/llms.txt 存在，且明确说明 Crossref 不评判研究质量",
+        "url": "https://www.crossref.org/llms.txt",
+        "quote": "a Crossref DOI shows that a record exists, not that the work is trustworthy.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "api.crossref.org 的 /robots.txt 与 /llms.txt 均 404",
+        "url": "https://api.crossref.org/llms.txt",
+        "quote": "HTTP 404（JSON）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "REST API 任何人可用、无需注册",
+        "url": "https://www.crossref.org/documentation/retrieve-metadata/rest-api/access-and-authentication/",
+        "quote": "Anyone can access the REST API, no signup or registration is required.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "限频按访问池区分（公共/礼貌/Metadata Plus 付费），建议带 mailto 走礼貌池；具体数字在响应头 x-rate-limit-limit",
+        "url": "https://www.crossref.org/documentation/retrieve-metadata/rest-api/access-and-authentication/",
+        "quote": "The option you choose affects the rate limits. We recommend the polite option so that we can contact you if there is an issue.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "有公开数据文件与快照页（Public data files and snapshots）",
+        "url": "https://www.crossref.org/documentation/retrieve-metadata/rest-api/",
+        "quote": "Public data files and snapshots",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "semantic-scholar",
+    "name": "Semantic Scholar",
+    "name_zh": "Semantic Scholar 学术搜索",
+    "home": "https://www.semanticscholar.org",
+    "kind": "学术与论文",
+    "what": "艾伦人工智能研究所（Ai2）的免费学术搜索与引用图谱，含 Academic Graph API 和数据集；智能体常拿它查论文、作者、引用关系。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "未知",
+    "cn_reach_why": "没有可靠的公开依据判断国内是否稳定可达，本机测不出大陆可达性。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "论文元数据和引用关系由机器抽取并汇总多方来源，不是原文发布方，属受监督的二手索引。"
+    },
+    "evidence": [
+      {
+        "claim": "www 站 robots.txt 对 * 只禁 /search、/api 等少数路径，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://www.semanticscholar.org/robots.txt",
+        "quote": "User-agent: *\nDisallow: /search",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 注释指向公开 API",
+        "url": "https://www.semanticscholar.org/robots.txt",
+        "quote": "# Or check out our public API http://api.semanticscholar.org/",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404；api.semanticscholar.org 的 robots.txt 与 llms.txt 也为 404",
+        "url": "https://www.semanticscholar.org/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "多数接口无需 key，但共享限频",
+        "url": "https://www.semanticscholar.org/product/api",
+        "quote": "Most Semantic Scholar endpoints are available to the public without authentication, but they are rate-limited to 1000 requests per second shared among all unauthenticated users.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "申请 key 的初始限频",
+        "url": "https://www.semanticscholar.org/product/api",
+        "quote": "The introductory rate limit for an API key is 1 RPS on all endpoints.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "数据集免费开放下载",
+        "url": "https://www.semanticscholar.org/product/api",
+        "quote": "We also provide the following datasets as free and open resources.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 许可协议：Ai2 可随时终止、遇过量带宽使用可限流（协议更新于 2023-05-17）",
+        "url": "https://www.semanticscholar.org/product/api/license",
+        "quote": "excessive bandwidth usage, in which AI2 may throttle use until consumption is reduced.",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "gutenberg",
+    "name": "Project Gutenberg",
+    "name_zh": "古腾堡计划",
+    "home": "https://www.gutenberg.org",
+    "kind": "档案与数字图书馆",
+    "what": "志愿者录入校对的公版电子书库，7 万多本；智能体常拿它取经典作品全文。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "按公开常识，gutenberg.org 国内一般可访问，镜像站也多。",
+    "agent_entry": [
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 2,
+      "why": "文本是志愿者对公版原书的转录与校对，有版本与勘误机制，但不是原件本身，属二手汇编。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 只禁 /ebooks/search，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://www.gutenberg.org/robots.txt",
+        "quote": "User-agent: *\nDisallow: /ebooks/search",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://www.gutenberg.org/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "机器人访问政策：网站面向真人，自动工具会被封 IP，仅指定方式例外（harvest、镜像、目录数据）",
+        "url": "https://www.gutenberg.org/policy/robot_access.html",
+        "quote": "The Project Gutenberg website is intended for human users only. Any perceived use of automated tools to access the Project Gutenberg website will result in a temporary or permanent block of your IP address.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "官方提供 wget 批量取书与镜像方法",
+        "url": "https://www.gutenberg.org/policy/robot_access.html",
+        "quote": "wget -w 2 -m -H \"https://www.gutenberg.org/robot/harvest?filetypes[]=html\"",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "绝大多数电子书为美国公版，可商用",
+        "url": "https://www.gutenberg.org/policy/permission.html",
+        "quote": "The vast majority of Project Gutenberg eBooks are in the public domain in the US.",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "doaj",
+    "name": "DOAJ",
+    "name_zh": "开放获取期刊目录 DOAJ",
+    "home": "https://doaj.org",
+    "kind": "学术与论文",
+    "what": "经人工审核收录的开放获取期刊与文章元数据目录；智能体常用来核验某期刊是否正规开放获取、查文章元数据。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "未知",
+    "cn_reach_why": "没有可靠的公开依据判断国内是否稳定可达，本机测不出大陆可达性。",
+    "agent_entry": [
+      "有API",
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "允许",
+    "authority": {
+      "tier": 1,
+      "why": "收录与否由 DOAJ 自己审核定论，文章元数据由出版方提交，出错能追到 DOAJ 或出版方。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 明说欢迎 AI 使用，并带 Content-signal，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://doaj.org/robots.txt",
+        "quote": "Content-signal: search=yes, ai-train=yes, ai-input=yes, use=reference",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 注释：目标是不设限开放，包括 AI 使用",
+        "url": "https://doaj.org/robots.txt",
+        "quote": "# The DOAJ aims to make its content accessible without restriction including for AI use.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://doaj.org/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API v4 文档页公开；key 通常只发给出版方",
+        "url": "https://doaj.org/api/v4/docs",
+        "quote": "API keys are usually only available to publishers who submit data to DOAJ.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API 限频每秒 2 次，允许小突发",
+        "url": "https://doaj.org/api/v4/docs",
+        "quote": "There is a rate limit of two requests per second on all API routes.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "完整数据转储需申请，按个案批准；期刊 CSV 可直接下载；每日更新的转储是付费 Premium 服务",
+        "url": "https://doaj.org/docs/public-data-dump/",
+        "quote": "access to the dumps is granted on a case-by-case basis.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "文章元数据以 CC0 放弃权利，站点内容 CC BY-SA 4.0",
+        "url": "https://doaj.org/docs/public-data-dump/",
+        "quote": "Copyrights and related rights for article metadata waived via CC0 1.0 Universal (CC0) Public Domain Dedication.",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "common-crawl",
+    "name": "Common Crawl",
+    "name_zh": "Common Crawl 网页抓取档案",
+    "home": "https://commoncrawl.org",
+    "kind": "档案与数字图书馆",
+    "what": "非营利机构定期抓取全网形成的开放网页存档（WARC/索引），托管在 AWS；智能体常拿它做语料、查某网址历史抓取。",
+    "free": "免费",
+    "region": "全球",
+    "cn_reach": "未知",
+    "cn_reach_why": "官网和数据域名（AWS、CloudFront）国内可达性没有可靠公开依据，本机测不出。",
+    "agent_entry": [
+      "有数据下载",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "是抓取当时网页的原始存档，保留的是当时网页怎么说；不核实内容真假，用内容时要回到原站复核。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 仅按名禁 IndeedBot 与 Indeedshopbot，对 * 只禁 /search?*，未按名禁 GPTBot/ClaudeBot，无 Crawl-delay",
+        "url": "https://commoncrawl.org/robots.txt",
+        "quote": "User-agent: *\nDisallow: /search?*",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://commoncrawl.org/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "数据免费，任何人可取，托管于 s3://commoncrawl/，也可经 HTTPS 下载",
+        "url": "https://commoncrawl.org/get-started",
+        "quote": "Crawl data is free to access by anyone from anywhere.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "使用条款（2024-03-07 更新）：授予有限许可，并列出禁止用途",
+        "url": "https://commoncrawl.org/terms-of-use",
+        "quote": "CC grants you a limited, non-assignable, non-transferable, non-sublicensable, non-exclusive, limited license to access",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "gov-cn",
+    "name": "中国政府网",
+    "name_zh": "中国政府网（含国务院政策文件库）",
+    "home": "https://www.gov.cn",
+    "kind": "政务与法规",
+    "what": "国务院办公厅主办的中央政府门户，发布国务院文件、政策解读、领导活动；智能体常拿它查国家政策原文。",
+    "free": "免费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内政府网站，国内可直接访问。",
+    "agent_entry": [
+      "仅网页",
+      "robots允许"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "未提",
+    "authority": {
+      "tier": 1,
+      "why": "国务院办公厅作为发布主体自己出，政策原文出错能追到发布单位。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对 * 为 Allow: /1 加一批 Disallow 具体栏目，未按名禁 AI 爬虫，无 Crawl-delay",
+        "url": "https://www.gov.cn/robots.txt",
+        "quote": "User-agent: * \nAllow: /1",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://www.gov.cn/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "网站声明只限制商业性原版原式转载和篡改，未提自动化访问",
+        "url": "https://www.gov.cn/home/2014-02/23/content_5046258.htm",
+        "quote": "任何媒体、互联网站和商业机构不得利用本网站发布的内容进行商业性的原版原式地转载，也不得歪曲和篡改本网站所发布的内容。",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "网站声明：与纸质文本不符以纸质为准",
+        "url": "https://www.gov.cn/home/2014-02/23/content_5046258.htm",
+        "quote": "本网站提供的资料如与相关纸质文本不符，以纸质文本为准。",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/zhengce/zhengceku/ 路径回 403（nginx 标准页，疑为无索引目录，不能断定是针对 UA）；/zhengce/index.htm 回 200。国务院政策文件库（sousuo.www.gov.cn）本次未探测，公开 API 未查到",
+        "url": "https://www.gov.cn/zhengce/zhengceku/",
+        "quote": "403 Forbidden nginx",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "stats-data",
+    "name": "国家数据（国家统计局）",
+    "name_zh": "国家数据 data.stats.gov.cn",
+    "home": "https://data.stats.gov.cn",
+    "kind": "开放数据",
+    "what": "国家统计局的统计数据发布平台，含月度、季度、年度宏观数据；智能体常拿它查 GDP、CPI、人口等官方统计数字。",
+    "free": "免费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内政府网站，国内可直接访问。",
+    "agent_entry": [
+      "仅网页"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "未提",
+    "authority": {
+      "tier": 1,
+      "why": "国家统计局自己发布的官方统计数据，出错能追到统计局。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 返回 404（即无 robots 约束）；首次请求曾连接失败，重试后得 404",
+        "url": "https://data.stats.gov.cn/robots.txt",
+        "quote": "HTTP 404 {\"status\":404,\"error\":\"Not Found\"}",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://data.stats.gov.cn/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "首页 302 跳转到单页应用，本次未发现公开 API 文档入口（未登录未深入）",
+        "url": "https://data.stats.gov.cn/",
+        "quote": "Location: https://data.stats.gov.cn/dg/website/page.html#/pc/national/home",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "条款页与 API/下载说明本次未取得，自动化条款记未提，API 与限频记未知",
+        "url": "https://data.stats.gov.cn/",
+        "quote": "（未取得）",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "flk-npc",
+    "name": "国家法律法规数据库",
+    "name_zh": "国家法律法规数据库 flk.npc.gov.cn",
+    "home": "https://flk.npc.gov.cn",
+    "kind": "政务与法规",
+    "what": "全国人大常委会法工委主办的法律、行政法规、地方性法规官方库；智能体常拿它核对法条现行版本。",
+    "free": "免费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内政府网站，国内可直接访问。",
+    "agent_entry": [
+      "仅网页",
+      "robots限制"
+    ],
+    "llms_txt": "200（单页应用回退页，实无 llms.txt）",
+    "automation_terms": "禁止",
+    "authority": {
+      "tier": 1,
+      "why": "全国人大系统官方发布的法律法规，出错能追到发布机关。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对所有爬虫 Disallow: /，并在注释里明说禁止自动化采集",
+        "url": "https://flk.npc.gov.cn/robots.txt",
+        "quote": "#禁止使用任何自动化工具、脚本、爬虫程序采集或复制网站数据\nUser-agent: *\nDisallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 200 但内容是网站单页应用的 HTML 外壳，不是 llms.txt",
+        "url": "https://flk.npc.gov.cn/llms.txt",
+        "quote": "<title>国家法律法规数据库</title>",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "首页是 JS 单页应用，静态抓取只拿到空壳；本次未发现公开 API 文档",
+        "url": "https://flk.npc.gov.cn/",
+        "quote": "<div id=\"app\"></div>",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "baidu-baike",
+    "name": "Baidu Baike",
+    "name_zh": "百度百科",
+    "home": "https://baike.baidu.com",
+    "kind": "百科与知识图谱",
+    "what": "百度运营的中文网络百科，词条由用户编辑、审核后发布；智能体常拿它查中文概念、人物、事件的简介。",
+    "free": "免费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内服务，国内可直接访问。",
+    "agent_entry": [
+      "仅网页",
+      "robots限制"
+    ],
+    "llms_txt": "404",
+    "automation_terms": "禁止",
+    "authority": {
+      "tier": 2,
+      "why": "用户编辑加审核机制的中文百科，有引用要求但不是原始发布方，用前要复核来源。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 只对 Baiduspider、Googlebot、bingbot、搜狗、有道等按名搜索引擎有限放行，对其他所有爬虫 Disallow: /；未按名提 AI 爬虫，无 Crawl-delay",
+        "url": "https://baike.baidu.com/robots.txt",
+        "quote": "User-agent: *\nDisallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 404",
+        "url": "https://baike.baidu.com/llms.txt",
+        "quote": "HTTP 404",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "自动化条款：百度百科协议页只取到 JS 空壳，未取得条款正文；这里的禁止是按 robots 对未列名爬虫全禁推定，不是条款原文",
+        "url": "https://baike.baidu.com/item/%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91%E5%8D%8F%E8%AE%AE",
+        "quote": "<title>百度百科</title>（正文未渲染）",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "首页可访问；未发现公开 API",
+        "url": "https://baike.baidu.com/",
+        "quote": "<title>百度百科_全球领先的中文百科全书</title>",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "zhihu",
+    "name": "Zhihu",
+    "name_zh": "知乎",
+    "home": "https://www.zhihu.com",
+    "kind": "社区问答",
+    "what": "中文社区问答平台，用户提问与回答、专栏文章；智能体常拿它找经验类回答和讨论。",
+    "free": "部分付费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内服务，国内可直接访问。",
+    "agent_entry": [
+      "仅网页",
+      "robots限制"
+    ],
+    "llms_txt": "200（实为 404 页面，无 llms.txt）",
+    "automation_terms": "禁止",
+    "authority": {
+      "tier": 3,
+      "why": "内容是个人回答，质量靠作者，高赞不等于准确，用前要复核。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对 * 全站 Disallow（仅放行 /tardis/jm），并单独对 Google-Extended 全禁；仅对少数搜索引擎按名放行",
+        "url": "https://www.zhihu.com/robots.txt",
+        "quote": "User-Agent: *\nAllow: /tardis/jm\nDisallow: /",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 返回 HTTP 200，但页面标题是 404 - 知乎，实际没有",
+        "url": "https://www.zhihu.com/llms.txt",
+        "quote": "<title>404 - 知乎</title>",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "用户协议禁止用自动化程序接入并收集内容",
+        "url": "https://www.zhihu.com/term/zhihu-terms",
+        "quote": "使用任何自动化程序、软件或类似工具接入知乎，收集或处理其中信息、内容",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "用户协议禁止抓取、复制、镜像平台内容",
+        "url": "https://www.zhihu.com/term/zhihu-terms",
+        "quote": "未经知乎的书面许可，任何单位或个人不得通过任何方式（包括但不限于抓取、复制、镜像等方式）使用知乎平台上的内容",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "首页对诚实 UA 返回 403（错误码 40362，限制本次访问），已停手，未换 UA 或 IP",
+        "url": "https://www.zhihu.com/",
+        "quote": "您当前请求存在异常，暂时限制本次访问。",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "gitee",
+    "name": "Gitee",
+    "name_zh": "码云 Gitee",
+    "home": "https://gitee.com",
+    "kind": "代码托管",
+    "what": "开源中国运营的中国代码托管平台，含开源社区与企业版；智能体常用它找国内开源项目、读仓库和调 API v5。",
+    "free": "部分付费",
+    "region": "国内",
+    "cn_reach": "国内可达",
+    "cn_reach_why": "中国境内服务，国内可直接访问。",
+    "agent_entry": [
+      "有API",
+      "有MCP",
+      "有llms.txt",
+      "robots允许"
+    ],
+    "llms_txt": "200",
+    "automation_terms": "未提",
+    "authority": {
+      "tier": 2,
+      "why": "既有项目方自己的仓库，也有大量对 GitHub 项目的镜像和个人库，来源参差，用前要确认是否官方仓库。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 标注 allow-all，对 * 设 Crawl-delay 1，仅禁 /admin、/api/v* 与仓库内的 raw/blame/commits 等路径，未按名禁 AI 爬虫",
+        "url": "https://gitee.com/robots.txt",
+        "quote": "User-agent: *\nCrawl-delay: 1",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 存在（200，text/plain），列出 API v5/v8 文档",
+        "url": "https://gitee.com/llms.txt",
+        "quote": "[Gitee API v5](https://gitee.com/api/v5/swagger): Complete REST API documentation for the community edition",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "API v5 公开仓库接口无 token 即可读（返回 JSON，200）",
+        "url": "https://gitee.com/api/v5/repos/oschina/git-osc",
+        "quote": "{\"id\":151,\"full_name\":\"oschina/git-osc\"",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "站点页脚有 OpenAPI MCP server 入口",
+        "url": "https://gitee.com/terms",
+        "quote": "OpenAPI MCP server",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "使用条款页用爬虫、自动化、抓取、接口等关键词检索未见相关条款，记未提；API 限频数字本次未查到，记未知",
+        "url": "https://gitee.com/terms",
+        "quote": "（关键词未检出）",
+        "date": "2026-10-28"
+      }
+    ]
+  },
+  {
+    "checked_at": "2026-10-28",
+    "id": "github",
+    "name": "GitHub",
+    "name_zh": "GitHub",
+    "home": "https://github.com",
+    "kind": "代码托管",
+    "what": "全球最大的代码托管与协作平台；智能体常用 REST/GraphQL API 和 MCP 服务读仓库、提 issue、查发行版。",
+    "free": "部分付费",
+    "region": "全球",
+    "cn_reach": "国内受限",
+    "cn_reach_why": "按公开常识，github.com 国内可访问但不稳定，部分资源域名（raw、assets）时常变慢或被拦。",
+    "agent_entry": [
+      "有API",
+      "有MCP",
+      "有llms.txt",
+      "robots允许"
+    ],
+    "llms_txt": "200",
+    "automation_terms": "有限",
+    "authority": {
+      "tier": 1,
+      "why": "项目方自己的官方仓库、发行版和官方文档是一手来源，出错能追到项目维护者；个人仓库质量不等，用前要确认是否官方。"
+    },
+    "evidence": [
+      {
+        "claim": "robots.txt 对 GPTBot、OAI-SearchBot、ClaudeBot、anthropic-ai、PerplexityBot 按名列出，只设 Crawl-delay 1 和若干路径 Disallow，不是整站禁；只有 Bytespider 被 Disallow: /",
+        "url": "https://github.com/robots.txt",
+        "quote": "User-agent: GPTBot\nUser-agent: OAI-SearchBot\nUser-agent: ClaudeBot\nUser-agent: anthropic-ai\nUser-agent: PerplexityBot\nCrawl-delay: 1",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "robots.txt 注释：想爬取请联系，并提供 API",
+        "url": "https://github.com/robots.txt",
+        "quote": "# We also provide an extensive API: https://docs.github.com",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "/llms.txt 存在（200），指向文档 API 与 GitHub MCP server",
+        "url": "https://github.com/llms.txt",
+        "quote": "GitHub MCP server: For agents that connect via Model Context Protocol",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "REST API 未登录限频每小时 60 次，登录后 5000 次",
+        "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+        "quote": "The primary rate limit for unauthenticated requests is 60 requests per hour.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "可接受使用政策：允许使用抓取或 API 所得信息（垃圾邮件等用途除外），抓取不含 API",
+        "url": "https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies",
+        "quote": "Scraping does not refer to the collection of information through our API.",
+        "date": "2026-10-28"
+      },
+      {
+        "claim": "可接受使用政策禁止过量自动化批量活动",
+        "url": "https://docs.github.com/en/site-policy/acceptable-use-policies/github-acceptable-use-policies",
+        "quote": "using our servers for any form of excessive automated bulk activity, to place undue burden on our servers through automated means",
+        "date": "2026-10-28"
+      }
+    ]
+  }
+]

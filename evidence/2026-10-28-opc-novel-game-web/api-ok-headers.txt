@@ -1,0 +1,17 @@
+HTTP/1.1 200 Connection established
+
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Functions-Request-Id: 1aff2a90-d262-11f1-b881-525400f3577c
+Vary: Accept-Encoding
+Vary: Accept-Encoding
+Cache-Control: no-store
+Age: 0
+Connection: keep-alive
+EO-LOG-UUID: 9568743190308042025
+EO-Cache-Status: Cache Miss
+X-NWS-LOG-UUID: 9568743190308042025
+Server: edgeone makers
+Date: Tue, 27 Oct 2026 23:57:02 GMT
+Transfer-Encoding: chunked
+
