@@ -1,0 +1,220 @@
+{
+  "version": "0.1",
+  "lang": "en",
+  "title": "What Cosmic Tree is for",
+  "subtitle": "A bot that knocked on the same door six times",
+  "narrator": "the Cosmic Tree maintainers",
+  "audience": {
+    "name": "",
+    "level": "入门"
+  },
+  "beats": [
+    {
+      "scene": "web-blocked",
+      "params": {
+        "site": "discord.com",
+        "code": "ERR_CONNECTION_CLOSED",
+        "knocks": 6
+      },
+      "lines": [
+        "Here's what happened.",
+        "We built a bot with Grok to help us run our Discord server. Its very first task was to open Discord's website.",
+        "It knocked six times. Six times the connection dropped.",
+        "It could not get in. We still don't know why."
+      ]
+    },
+    {
+      "scene": "side-door",
+      "params": {
+        "main": "website",
+        "side": "official API"
+      },
+      "lines": [
+        "Then it found another door, the official API Discord keeps for bots.",
+        "The front door stayed shut no matter how hard it knocked.",
+        "Through the side door it created channels, posted messages, pinned them. Everything worked.",
+        "Nobody had told it in advance which door to use."
+      ]
+    },
+    {
+      "scene": "web-blocked",
+      "params": {
+        "site": "our own game page",
+        "code": "401",
+        "knocks": 2
+      },
+      "lines": [
+        "We have run into this ourselves.",
+        "A game page we built opens to three digits on a phone in mainland China: 401.",
+        "It is not that AI can't get in. Nobody in mainland China can, humans included."
+      ]
+    },
+    {
+      "scene": "ask-owner",
+      "params": {
+        "site": "GitHub · feedback",
+        "button": "Send",
+        "ask": "needs an OK",
+        "answer": "Send it."
+      },
+      "lines": [
+        "Another time, an AI was posting feedback on GitHub for us.",
+        "It did everything itself, right up to the Send button.",
+        "Then it stopped and came back to ask: send or not?",
+        "We said send it. Under a minute.",
+        "It went back and sent it."
+      ]
+    },
+    {
+      "scene": "desk",
+      "params": {
+        "bubble": "Go get a few things done for me"
+      },
+      "lines": [
+        "Think about it. This will only happen more.",
+        "Shopping, finding videos, research, posting. More and more errands on the web are run by AI.",
+        "But the web was built for people. Every time the AI gets stuck, a person has to stop and help."
+      ]
+    },
+    {
+      "scene": "cards-stack",
+      "params": {
+        "cardTitle": "a platform",
+        "title": "Cosmic Tree"
+      },
+      "lines": [
+        "So we set out to do something a little stubborn: measure the whole web by how hard it is for AI to get in.",
+        "One card per platform: can the AI get in, where does it get stuck, which step needs a human.",
+        "The cards live in a public GitHub repository called Cosmic Tree."
+      ]
+    },
+    {
+      "scene": "two-scores",
+      "params": {
+        "platform": "opc-cosmic-tree"
+      },
+      "lines": [
+        "Each card has two scores, both out of 100.",
+        "Friendliness: how much road the platform paved for AI. Our own repository scores {f:opc-cosmic-tree}.",
+        "Anti-agent: how many walls it put up on purpose. Ours scores {a:opc-cosmic-tree}."
+      ]
+    },
+    {
+      "scene": "time-cost",
+      "params": {
+        "minutes": [
+          0,
+          0,
+          0
+        ]
+      },
+      "lines": [
+        "Honestly, one number matters even more than the two scores: time.",
+        "How many times, and for how many minutes, a person had to step in. Run the same task three times, keep the middle one.",
+        "Ours came out at zero minutes all three times; it just needed a nod. That number is the real cost to you."
+      ]
+    },
+    {
+      "scene": "notes",
+      "params": {
+        "title": "How we test",
+        "items": [
+          "Stop at any CAPTCHA",
+          "No IP rotation, no posing as anyone",
+          "Raw records behind every score",
+          "No money from the platforms we rate"
+        ]
+      },
+      "lines": [
+        "One thing to be clear about: we only do what any normal user could do.",
+        "A CAPTCHA means we stop. We never get around it.",
+        "No IP rotation, no posing as someone else, no borrowed accounts.",
+        "Every score comes with the raw records from that moment.",
+        "And we take no money from the platforms we rate."
+      ]
+    },
+    {
+      "scene": "web-open",
+      "params": {
+        "site": "github.com/dundunbaba/cosmic-tree",
+        "title": "check the card first"
+      },
+      "lines": [
+        "We rate websites ourselves, one by one, and keep the repository updated.",
+        "Before your AI goes somewhere, it checks first. If the site is rated, it just reads the card.",
+        "Or install our skill and test your own task. Send the result back if you like, or keep it.",
+        "Want a site rated first? Open a request in the repository."
+      ]
+    },
+    {
+      "scene": "task-chain",
+      "params": {
+        "site": "GitHub",
+        "paths": [
+          {
+            "label": "read a public repo",
+            "gates": []
+          },
+          {
+            "label": "open an issue",
+            "gates": [
+              "login"
+            ]
+          },
+          {
+            "label": "merge a change",
+            "gates": [
+              "login",
+              "write access"
+            ]
+          }
+        ]
+      },
+      "lines": [
+        "One catch: the same site opens different doors for different tasks.",
+        "On GitHub, anyone can read a public repository.",
+        "Opening an issue needs a login.",
+        "Merging into someone else's repository needs a login and their permission.",
+        "So difficulty depends on the task. An AI can walk its own chain of tasks with the skill."
+      ]
+    },
+    {
+      "scene": "submit-check",
+      "params": {},
+      "lines": [
+        "Results sent back stay public: who sent them, and when.",
+        "The skill stamps a fingerprint so everyone reports the same way.",
+        "Our AI walks the key steps again from the record, and only matching results go in."
+      ]
+    },
+    {
+      "scene": "practice-page",
+      "params": {
+        "title": "Create a Discord channel",
+        "items": [
+          "Use the official API, not the website",
+          "Don't mix up the two keys",
+          "You need Manage Channels"
+        ],
+        "added": "Found a new trap? Add a dated line."
+      },
+      "lines": [
+        "One more piece we haven't built yet, but really want to: not just where AI gets stuck, but how to get it done.",
+        "To create a Discord channel, skip the website and use the official API.",
+        "The two keys look alike. Mix them up and you get a 401.",
+        "Creating channels needs a permission only the owner can grant.",
+        "Whoever finds a new trap adds a dated line."
+      ]
+    },
+    {
+      "scene": "tree",
+      "params": {},
+      "lines": [
+        "Back to that bot. If it had checked Cosmic Tree first, it would not have knocked six times.",
+        "That's Cosmic Tree. {cards} leaves today, {rated} of them lit.",
+        "The rest are waiting for your AI."
+      ]
+    }
+  ],
+  "ending": "Next time you send an AI on an errand, it checks first: can it get in, where will it get stuck, what's the smoothest way, and when will it need you."
+}

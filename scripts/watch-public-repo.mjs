@@ -66,10 +66,33 @@ function keyed(list, keyFn) {
   return m;
 }
 
-export function diff(prev, cur) {
+const isErr = (x) => !!(x && typeof x === 'object' && !Array.isArray(x) && x.__error);
+
+// 非致命的段（评论、Actions、事件……）这一跳接口偶尔会失败。失败时不能把错误对象当空列表比对（会报假"移除"），
+// 也不能把它写进快照（下次会报假"新增"）：沿用上次快照里这一段的值，并记一条警告。
+const SECTIONS = { repo_meta: '仓', collaborators: '协作者', invitations: '邀请', webhooks: 'webhook', branch_protection: '分支保护', issues: 'Issue/PR', comments: '评论', actions: 'Actions', events: '事件' };
+export function carryOver(prev, cur, warnings = []) {
+  for (const [key, name] of Object.entries(SECTIONS)) {
+    if (!isErr(cur[key])) continue;
+    const msg = cur[key].__error;
+    if (prev && key in prev && !isErr(prev[key])) {
+      cur[key] = prev[key];
+      warnings.push(`【${name} 拉取失败，沿用上次快照】${msg}`);
+    } else warnings.push(`【${name} 拉取失败，本次无基准】${msg}`);
+  }
+  return cur;
+}
+
+export function diff(prev, cur, warnings = []) {
   const out = [];
   if (!prev) return ['首次快照，无可比对象；下次起只报变化。'];
+  const skip = (name, a, b) => {
+    if (!isErr(a) && !isErr(b)) return false;
+    warnings.push(`【${name} 未比对】${isErr(a) ? '上次快照这一段拉取失败，本次重建基准' : '本次拉取失败'}：${(isErr(a) ? a : b).__error}`);
+    return true;
+  };
   const cmpList = (name, a, b, keyFn, describe) => {
+    if (skip(name, a, b)) return;
     const pa = keyed(a, keyFn), pb = keyed(b, keyFn);
     for (const [k, v] of pb) if (!pa.has(k)) out.push(`【新增 ${name}】${describe(v)}`);
     for (const [k, v] of pa) if (!pb.has(k)) out.push(`【移除 ${name}】${describe(v)}`);
@@ -78,14 +101,18 @@ export function diff(prev, cur) {
   cmpList('协作者', prev.collaborators, cur.collaborators, (x) => x.login, (x) => `${x.login}（${x.type}，admin=${x.admin} push=${x.push}）`);
   cmpList('邀请', prev.invitations, cur.invitations, (x) => `${x.invitee}`, (x) => `${x.invitee}（${x.type}，${x.perm}）`);
   cmpList('webhook', prev.webhooks, cur.webhooks, (x) => String(x.id), (x) => `#${x.id} ${x.host} active=${x.active} events=${(x.events || []).join(',')}`);
-  if (JSON.stringify(prev.branch_protection) !== JSON.stringify(cur.branch_protection)) out.push(`【分支保护】${JSON.stringify(prev.branch_protection)} → ${JSON.stringify(cur.branch_protection)}`);
+  if (!skip('分支保护', prev.branch_protection, cur.branch_protection) && JSON.stringify(prev.branch_protection) !== JSON.stringify(cur.branch_protection)) out.push(`【分支保护】${JSON.stringify(prev.branch_protection)} → ${JSON.stringify(cur.branch_protection)}`);
   cmpList('Issue/PR', prev.issues, cur.issues, (x) => String(x.n), (x) => `#${x.n} ${x.pr ? 'PR' : 'Issue'} ${x.state} ${x.title}（${x.by}，${x.by_type}，评论 ${x.comments}）`);
   cmpList('评论', prev.comments, cur.comments, (x) => String(x.id), (x) => `#${x.issue} ${x.by}（${x.by_type}）${x.at}：${x.head}`);
   cmpList('Actions', prev.actions, cur.actions, (x) => String(x.id), (x) => `${x.name} ${x.status}/${x.conclusion} ${x.at}`);
-  const pm = prev.repo_meta || {}, cm = cur.repo_meta || {};
-  for (const k of ['visibility', 'default_branch', 'stars', 'forks', 'watchers', 'has_issues']) if (pm[k] !== cm[k]) out.push(`【仓】${k}：${pm[k]} → ${cm[k]}`);
-  const seen = new Set((prev.events || []).map((e) => e.id));
-  for (const e of (cur.events || []).slice().reverse()) if (!seen.has(e.id)) out.push(`【事件】${e.at} ${e.type} ${e.action} by ${e.actor}`);
+  if (!skip('仓', prev.repo_meta, cur.repo_meta)) {
+    const pm = prev.repo_meta || {}, cm = cur.repo_meta || {};
+    for (const k of ['visibility', 'default_branch', 'stars', 'forks', 'watchers', 'has_issues']) if (pm[k] !== cm[k]) out.push(`【仓】${k}：${pm[k]} → ${cm[k]}`);
+  }
+  if (!skip('事件', prev.events, cur.events)) {
+    const seen = new Set((prev.events || []).map((e) => e.id));
+    for (const e of (cur.events || []).slice().reverse()) if (!seen.has(e.id)) out.push(`【事件】${e.at} ${e.type} ${e.action} by ${e.actor}`);
+  }
   return out;
 }
 
@@ -98,7 +125,9 @@ function main() {
     return 2;
   }
   const prev = existsSync(o.state) ? JSON.parse(readFileSync(o.state, 'utf8')) : null;
-  const changes = diff(prev, cur);
+  const warnings = [];
+  carryOver(prev, cur, warnings);
+  const changes = diff(prev, cur, warnings);
   mkdirSync(dirname(o.state), { recursive: true });
   writeFileSync(o.state, JSON.stringify(cur, null, 2) + '\n');
   const nonOwner = (cur.events || []).filter((e) => e.actor && e.actor !== (cur.collaborators || []).find((c) => c.admin)?.login);
@@ -107,12 +136,13 @@ function main() {
     collaborators: (cur.collaborators || []).length, invitations: (cur.invitations || []).length, webhooks: (cur.webhooks || []).length,
     branch_protection: cur.branch_protection, open_issues: (cur.issues || []).filter((i) => i.state === 'open' && !i.pr).length,
     open_prs: (cur.issues || []).filter((i) => i.state === 'open' && i.pr).length, comments: (cur.comments || []).length,
-    bot_or_outsider_events: nonOwner.length, changes,
+    bot_or_outsider_events: nonOwner.length, changes, warnings,
   };
   if (o.json) console.log(JSON.stringify(summary, null, 2));
   else {
     console.log(`公开仓巡查 ${o.repo} @ ${cur.taken_at}`);
     console.log(`协作者 ${summary.collaborators}｜邀请 ${summary.invitations}｜webhook ${summary.webhooks}｜分支保护 ${summary.branch_protection}｜开着的 Issue ${summary.open_issues}｜开着的 PR ${summary.open_prs}｜评论 ${summary.comments}｜非所有者事件 ${summary.bot_or_outsider_events}`);
+    for (const w of warnings) console.log(`! ${w}`);
     console.log(changes.length ? changes.map((c) => `- ${c}`).join('\n') : '无变化。');
   }
   return changes.length && prev ? 3 : 0;

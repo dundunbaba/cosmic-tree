@@ -1,5 +1,5 @@
 # 探测日志 · 宇宙之树公开仓 github.com/dundunbaba/cosmic-tree · 2026-10-28
-# 探针：curl 8.18.0，UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；本机出网经 Clash（HTTP 代理 127.0.0.1:7897，TUN），不是裸连；匿名、不带 token；正常频率，三轮
+# 探针：curl 8.18.0，UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；本机出网经 Clash（本机代理），不是裸连；匿名、不带 token；正常频率，三轮
 == 第 1 轮 2026-10-27T23:57:10Z
 GET https://github.com/dundunbaba/cosmic-tree  HTTP 200  0.787257s  0B
 GET https://raw.githubusercontent.com/dundunbaba/cosmic-tree/master/llms.txt  HTTP 200  0.240215s  0B

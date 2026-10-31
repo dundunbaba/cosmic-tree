@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; media-src data: blob:;">
+<title>宇宙之树 · Cosmic Tree</title>
+<style>
+  /* 宇宙之树讲解播放器。画法：一笔线描（OPC 美术风格库 one-line），米白纸、黑细线宽 4、只有一个红点，红点就是故事里的 AI。
+     故事稿决定讲什么、用哪个场景；场景怎么画写死在这里，所以谁写的故事稿画出来都是同一个水准。 */
+  :root{--paper:#F6F3EC;--ink:#1C1C1C;--accent:#E2462F;--soft:#6E6A62;--rule:#DCD6C8;
+        --hand:'KaiTi','STKaiti','Kaiti SC','BiauKai','LXGW WenKai',serif;--body:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;color-scheme:light}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--paper);color:var(--ink)}
+  body{display:flex;flex-direction:column;min-height:100%;font:16px/1.6 var(--body)}
+  header{display:flex;align-items:center;gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--soft);font-size:14px}
+  .bar{flex:1;height:3px;background:var(--rule);border-radius:2px;overflow:hidden;min-width:40px}
+  .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+  .who{font-family:var(--hand);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:40%}
+  .btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:4px 14px;font:15px var(--hand);cursor:pointer;white-space:nowrap}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .btn[hidden]{display:none}
+  main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding-block:0 18px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));position:relative}
+  #stage{width:min(860px,100%);height:auto;display:block;overflow:visible}
+  #stage path{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+  #stage path.thin{stroke-width:2}
+  #stage text{font-family:var(--hand);fill:var(--ink)}
+  #stage text.soft{fill:var(--soft)}
+  #stage .bud{fill:var(--soft);opacity:.5}
+  .say{font-family:var(--hand);font-size:clamp(20px,3.2vw,30px);letter-spacing:.04em;line-height:1.5;text-align:center;max-width:min(24em,100%);min-height:3.2em;overflow-wrap:anywhere}
+  .say span{opacity:0;transition:opacity .12s}
+  .say span.on{opacity:1}
+  .prev{font-family:var(--hand);color:var(--soft);font-size:16px;text-align:center;max-width:36em;min-height:1.6em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .end{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:6px}
+  .end[hidden]{display:none}
+  .sum{font-family:var(--hand);font-size:20px;text-align:center;max-width:28em;border-top:1.5px solid var(--ink);padding-top:10px}
+  .foot{color:var(--soft);font-size:12px;text-align:center;overflow-wrap:anywhere}
+  .cover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:color-mix(in srgb,var(--paper) 84%,transparent);padding-inline:16px;text-align:center}
+  .cover[hidden]{display:none}
+  .cover h1{font-family:var(--hand);font-weight:400;font-size:clamp(28px,5vw,46px);margin:0;letter-spacing:.08em}
+  .cover p{margin:0;color:var(--soft);font-family:var(--hand);font-size:18px;max-width:28em}
+  .play{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:10px 28px;font:22px var(--hand);cursor:pointer;display:flex;align-items:center;gap:10px}
+  .play::before{content:"";width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent}
+  .play:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  @media (max-width:520px){.prev{font-size:14px}}
+</style>
+</head>
+<body>
+<header><span class="who" id="who"></span><div class="bar"><i id="prog"></i></div><button type="button" class="btn" id="mute" hidden></button><button type="button" class="btn" id="pause" hidden></button><button type="button" class="btn" id="again" hidden></button></header>
+<main>
+  <svg id="stage" viewBox="0 0 800 600" role="img" aria-labelledby="say"></svg>
+  <div class="prev" id="prev"></div>
+  <div class="say" id="say" aria-live="polite"></div>
+  <div class="end" id="end" hidden><div class="sum" id="sum"></div><div class="foot" id="foot"></div></div>
+  <div class="cover" id="cover"><h1 id="ctitle"></h1><p id="csub"></p><button type="button" class="play" id="start"></button></div>
+</main>
+<script id="story" type="application/json">{"version":"0.1","lang":"en","title":"What Cosmic Tree is for","subtitle":"A bot that knocked on the same door six times","narrator":"the Cosmic Tree maintainers","audience":{"name":"","level":"入门"},"beats":[{"scene":"web-blocked","params":{"site":"discord.com","code":"ERR_CONNECTION_CLOSED","knocks":6},"lines":["Here's what happened.","We built a bot with Grok to help us run our Discord server. Its very first task was to open Discord's website.","It knocked six times. Six times the connection dropped.","It could not get in. We still don't know why."]},{"scene":"side-door","params":{"main":"website","side":"official API"},"lines":["Then it found another door, the official API Discord keeps for bots.","The front door stayed shut no matter how hard it knocked.","Through the side door it created channels, posted messages, pinned them. Everything worked.","Nobody had told it in advance which door to use."]},{"scene":"web-blocked","params":{"site":"our own game page","code":"401","knocks":2},"lines":["We have run into this ourselves.","A game page we built opens to three digits on a phone in mainland China: 401.","It is not that AI can't get in. Nobody in mainland China can, humans included."]},{"scene":"ask-owner","params":{"site":"GitHub · feedback","button":"Send","ask":"needs an OK","answer":"Send it."},"lines":["Another time, an AI was posting feedback on GitHub for us.","It did everything itself, right up to the Send button.","Then it stopped and came back to ask: send or not?","We said send it. Under a minute.","It went back and sent it."]},{"scene":"desk","params":{"bubble":"Go get a few things done for me"},"lines":["Think about it. This will only happen more.","Shopping, finding videos, research, posting. More and more errands on the web are run by AI.","But the web was built for people. Every time the AI gets stuck, a person has to stop and help."]},{"scene":"cards-stack","params":{"cardTitle":"a platform","title":"Cosmic Tree"},"lines":["So we set out to do something a little stubborn: measure the whole web by how hard it is for AI to get in.","One card per platform: can the AI get in, where does it get stuck, which step needs a human.","The cards live in a public GitHub repository called Cosmic Tree."]},{"scene":"two-scores","params":{"platform":"opc-cosmic-tree"},"lines":["Each card has two scores, both out of 100.","Friendliness: how much road the platform paved for AI. Our own repository scores 85.","Anti-agent: how many walls it put up on purpose. Ours scores 8."]},{"scene":"time-cost","params":{"minutes":[0,0,0]},"lines":["Honestly, one number matters even more than the two scores: time.","How many times, and for how many minutes, a person had to step in. Run the same task three times, keep the middle one.","Ours came out at zero minutes all three times; it just needed a nod. That number is the real cost to you."]},{"scene":"notes","params":{"title":"How we test","items":["Stop at any CAPTCHA","No IP rotation, no posing as anyone","Raw records behind every score","No money from the platforms we rate"]},"lines":["One thing to be clear about: we only do what any normal user could do.","A CAPTCHA means we stop. We never get around it.","No IP rotation, no posing as someone else, no borrowed accounts.","Every score comes with the raw records from that moment.","And we take no money from the platforms we rate."]},{"scene":"web-open","params":{"site":"github.com/dundunbaba/cosmic-tree","title":"check the card first"},"lines":["We rate websites ourselves, one by one, and keep the repository updated.","Before your AI goes somewhere, it checks first. If the site is rated, it just reads the card.","Or install our skill and test your own task. Send the result back if you like, or keep it.","Want a site rated first? Open a request in the repository."]},{"scene":"task-chain","params":{"site":"GitHub","paths":[{"label":"read a public repo","gates":[]},{"label":"open an issue","gates":["login"]},{"label":"merge a change","gates":["login","write access"]}]},"lines":["One catch: the same site opens different doors for different tasks.","On GitHub, anyone can read a public repository.","Opening an issue needs a login.","Merging into someone else's repository needs a login and their permission.","So difficulty depends on the task. An AI can walk its own chain of tasks with the skill."]},{"scene":"submit-check","params":{},"lines":["Results sent back stay public: who sent them, and when.","The skill stamps a fingerprint so everyone reports the same way.","Our AI walks the key steps again from the record, and only matching results go in."]},{"scene":"practice-page","params":{"title":"Create a Discord channel","items":["Use the official API, not the website","Don't mix up the two keys","You need Manage Channels"],"added":"Found a new trap? Add a dated line."},"lines":["One more piece we haven't built yet, but really want to: not just where AI gets stuck, but how to get it done.","To create a Discord channel, skip the website and use the official API.","The two keys look alike. Mix them up and you get a 401.","Creating channels needs a permission only the owner can grant.","Whoever finds a new trap adds a dated line."]},{"scene":"tree","params":{},"lines":["Back to that bot. If it had checked Cosmic Tree first, it would not have knocked six times.","That's Cosmic Tree. 45 leaves today, 2 of them lit.","The rest are waiting for your AI."]}],"ending":"Next time you send an AI on an errand, it checks first: can it get in, where will it get stuck, what's the smoothest way, and when will it need you."}</script>
+<script id="data" type="application/json">{"generated_at":"2026-10-28","repo":"https://github.com/dundunbaba/cosmic-tree","counts":{"cards":45,"rated":2,"unrated":43,"baseline":28},"platforms":[{"slug":"afdian","name":"爱发电","type":"支付与收款","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"alipay","name":"支付宝","type":"支付与收款","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"aliyun-bailian","name":"阿里云百炼","type":"模型与AI服务","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"baidu-union","name":"百度联盟","type":"工具","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"bilibili","name":"B站","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"chrome-web-store","name":"Chrome Web Store","type":"浏览器与扩展商店","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"cloudflare","name":"Cloudflare","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"dedao","name":"得到","type":"知识与出版","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"discord","name":"Discord","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"docker-hub","name":"Docker Hub","type":"开发者平台","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"douyin","name":"抖音","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"edge-addons","name":"Microsoft Edge 加载项","type":"浏览器与扩展商店","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"exa","name":"Exa","type":"数据接口服务","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"feishu","name":"飞书","type":"办公协作","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"gitee","name":"Gitee","type":"开发者平台","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"github","name":"GitHub","type":"开发者平台","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"jina","name":"Jina","type":"数据接口服务","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"linkedin","name":"LinkedIn","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"mianbaoduo","name":"面包多","type":"支付与收款","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"neon","name":"Neon","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"obsidian","name":"Obsidian","type":"工具","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"opc-cosmic-tree","name":"宇宙之树公开仓","type":"知识与出版","friendliness":85,"anti":8,"status":"已评","quadrant":"开放场"},{"slug":"opc-novel-game-web","name":"游戏网页版（OPC）","type":"游戏","friendliness":21,"anti":13,"status":"已评","quadrant":"荒地"},{"slug":"opc-policy-kb-query","name":"政策知识库查询页（OPC）","type":"政务与合规","friendliness":null,"anti":null,"status":"准备评","quadrant":null},{"slug":"reddit","name":"Reddit","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"supabase","name":"Supabase","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"tailscale","name":"Tailscale","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"taobao","name":"淘宝","type":"电商","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"tencent-cloud","name":"腾讯云","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"tikhub","name":"TikHub","type":"数据接口服务","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"tiktok","name":"TikTok","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"vercel","name":"Vercel","type":"云与托管","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"volcengine","name":"火山引擎","type":"模型与AI服务","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"watcha","name":"观猹","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"wechat-mini-game","name":"微信小游戏","type":"开发者平台","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"wechat-mini-program","name":"微信小程序","type":"开发者平台","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"wechat-official-account","name":"微信公众号","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"wechat-pay","name":"微信支付","type":"支付与收款","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"weread","name":"微信读书","type":"知识与出版","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"x-twitter","name":"X（原 Twitter）","type":"社交","friendliness":null,"anti":null,"status":"准备评","quadrant":null},{"slug":"xianyu","name":"闲鱼","type":"二手与闲置","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"xiaohongshu","name":"小红书","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"xiaoyuzhou","name":"小宇宙","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"youtube","name":"YouTube","type":"内容视频","friendliness":null,"anti":null,"status":"未评","quadrant":null},{"slug":"zhihu","name":"知乎","type":"社交","friendliness":null,"anti":null,"status":"未评","quadrant":null}]}</script>
+<script>
+(function(){
+  const ST = JSON.parse(document.getElementById('story').textContent);
+  const D = JSON.parse(document.getElementById('data').textContent);
+  const zh = (ST.lang || 'zh') !== 'en';
+  const UI = zh ? { start: '开始看', mute: ['声音：开', '声音：关'], tts: ['电脑朗读：开', '电脑朗读：关'], pause: ['暂停', '继续'], again: '再看一遍', who: n => n ? `讲给 ${n}` : '宇宙之树', unrated: '还没评',
+      road: '修了多少路', wall: '设了多少拦', foot: `公开仓 ${D.repo} · 数据日期 ${D.generated_at} · 本页不联网，不收集任何信息`,
+      pass: '已复测', finger: '指纹', inbox: '宇宙之树', run: i => `第 ${i} 遍`, cards: `${D.counts.cards} 张卡` }
+    : { start: 'Play', mute: ['Sound: on', 'Sound: off'], tts: ['Computer voice: on', 'Computer voice: off'], pause: ['Pause', 'Resume'], again: 'Watch again', who: n => n ? `For ${n}` : 'Cosmic Tree', unrated: 'unrated',
+      road: 'road paved', wall: 'walls put up', foot: `Public repo ${D.repo} · data as of ${D.generated_at} · no network requests, nothing collected`,
+      pass: 'retested', finger: 'fingerprint', inbox: 'Cosmic Tree', run: i => `run ${i}`, cards: `${D.counts.cards} cards` };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const plat = slug => D.platforms.find(p => p.slug === slug) || null;
+
+  // ---------- 线稿工具（800×600） ----------
+  const bake = (d, tx, ty, deg = 0, s = 1) => { const r = deg * Math.PI / 180, c = Math.cos(r), k = Math.sin(r);
+    return d.replace(/(-?[\d.]+),(-?[\d.]+)/g, (_, x, y) => { const X = +x * s, Y = +y * s; return `${(tx + X * c - Y * k).toFixed(1)},${(ty + X * k + Y * c).toFixed(1)}`; }); };
+  const HEAD = ['M10,38 C22,38 30,30 32,20 L38,14 L34,8 L42,0 L34,-10 C36,-28 22,-42 2,-42 C-20,-42 -34,-26 -34,-4 C-34,14 -26,26 -14,32 C-6,36 2,38 10,38', 'M-30,-18 C-18,-38 12,-44 30,-26', 'M-6,-4 C-12,-4 -12,8 -6,8', 'M22,-6 L22.1,-6'];
+  const DESK = ['M110,560 L690,560', 'M182,468 L294,468', 'M184,468 C176,420 170,380 178,330', 'M190,468 L182,560', 'M286,468 L294,560', 'M318,414 L668,414', 'M648,414 L648,560', 'M610,412 L606,384 L634,384 L630,412', 'M634,392 C646,392 646,406 632,406', 'M616,374 C610,364 624,358 618,346',
+    ...HEAD.map(d => bake(d, 300, 232)), 'M290,264 L292,284', 'M310,270 L312,288', 'M292,284 C268,320 262,380 270,462', 'M312,288 C332,320 332,362 324,402 C326,428 330,442 334,450', 'M334,450 L386,446 C398,448 400,464 390,472', 'M270,466 L376,472', 'M390,472 L398,548', 'M376,474 L380,548', 'M380,548 L380,560', 'M398,548 C414,548 422,552 422,560',
+    'M302,298 C318,332 332,360 350,380 L440,398', 'M344,394 L436,408', 'M440,398 C452,398 456,408 446,412 L436,408', 'M440,412 L562,412 L594,318'];
+  const P_ = (d, cls) => `<path class="d${cls ? ' ' + cls : ''}" d="${d}"/>`;
+  const T_ = (x, y, s, size, extra = '') => `<text class="w" x="${x}" y="${y}" font-size="${size}" ${extra}>${[...String(s)].map(c => `<tspan>${esc(c)}</tspan>`).join('')}</text>`;
+  const circ = (x, y, r) => `M${x - r},${y} a${r},${r} 0 1,0 ${2 * r},0 a${r},${r} 0 1,0 ${-2 * r},0`;
+  const rect = (x, y, w, h) => `M${x},${y} L${x + w},${y} L${x + w},${y + h} L${x},${y + h} Z`;
+  const win = (x, y, w, h, title) => P_(rect(x, y, w, h)) + P_(`M${x},${y + 44} L${x + w},${y + 44}`, 'thin') + P_(circ(x + 22, y + 22, 6), 'thin') + P_(circ(x + 42, y + 22, 6), 'thin') + P_(circ(x + 62, y + 22, 6), 'thin') + T_(x + 86, y + 31, title, 22, 'class="w soft"');
+  const check = (x, y, s = 1) => `M${x},${y} L${x + 18 * s},${y + 20 * s} L${x + 52 * s},${y - 26 * s}`;
+  const cross = (x, y, s = 1) => [`M${x - 22 * s},${y - 22 * s} L${x + 22 * s},${y + 22 * s}`, `M${x + 22 * s},${y - 22 * s} L${x - 22 * s},${y + 22 * s}`];
+  const late = (k, inner) => `<g class="late" data-k="${k}">${inner}</g>`;
+  const fit = (s, n) => [...String(s)].length > n ? [...String(s)].slice(0, n - 1).join('') + '…' : String(s);
+
+  // ---------- 时间：可暂停，可整段重来 ----------
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let paused = false, run = 0;
+  const anim = (sec, fn, my = run) => new Promise(res => { if (my !== run) return res(); if (RM || sec <= 0) { fn(1); return res(); }
+    let t = 0, last = performance.now(); const DUR = sec * 1000;
+    const step = now => { if (my !== run) return res(); if (!paused) t += now - last; last = now; const k = Math.min(1, t / DUR); fn(k); k < 1 ? requestAnimationFrame(step) : res(); };
+    requestAnimationFrame(step); });
+  // 停顿是讲故事的节奏，不是动画：系统开了"减少动态效果"也照样等，否则旁白会一口气闪完
+  const sleep = (sec, my = run) => new Promise(res => { if (my !== run || sec <= 0) return res();
+    let t = 0, last = performance.now();
+    const step = now => { if (my !== run) return res(); if (!paused) t += now - last; last = now; t >= sec * 1000 ? res() : requestAnimationFrame(step); };
+    requestAnimationFrame(step); });
+
+  // ---------- 红点与画线 ----------
+  let dot, dx = 594, dy = 318;
+  const setDot = (x, y) => { dx = x; dy = y; dot.setAttribute('cx', x); dot.setAttribute('cy', y); };
+  const len = p => p.__L || (p.__L = p.getTotalLength());
+  const prep = g => { g.querySelectorAll('path.d').forEach(p => { const l = len(p); p.style.strokeDasharray = l; p.style.strokeDashoffset = l; p.style.opacity = 1; });
+    g.querySelectorAll('tspan').forEach(t => t.style.fillOpacity = 0); g.querySelectorAll('text.v').forEach(t => t.style.fillOpacity = 0); g.querySelectorAll('.bud').forEach(b => b.style.opacity = 0); };
+  const basePaths = g => [...g.querySelectorAll('path.d')].filter(p => !p.closest('.late'));
+  const baseTexts = g => [...g.querySelectorAll('text.w')].filter(t => !t.closest('.late'));
+  async function drawPaths(ps, sec, pen = true) { const tot = ps.reduce((a, p) => a + len(p), 0) || 1;
+    for (const p of ps) { const l = len(p); await anim(sec * l / tot, k => { p.style.strokeDashoffset = l * (1 - k); if (pen) { const pt = p.getPointAtLength(l * k); setDot(pt.x, pt.y); } }); } }
+  const writeIn = async (els, step = 0.03) => { for (const el of els) for (const t of el.querySelectorAll('tspan')) await anim(step, k => t.style.fillOpacity = k); };
+  async function drawBase(g, sec) { await drawPaths(basePaths(g), sec); await writeIn(baseTexts(g)); g.querySelectorAll('.bud').forEach(b => { b.style.transition = 'opacity .6s'; b.style.opacity = .5; }); }
+  async function drawLate(g, k, sec = .5) { const l = g.querySelector(`.late[data-k="${k}"]`); if (!l) return; await drawPaths([...l.querySelectorAll('path.d')], sec); await writeIn([...l.querySelectorAll('text.w')], .045); }
+  const showV = (g, id) => { const t = g.querySelector(`#${id}`); if (t) t.style.fillOpacity = 1; };
+  async function retract(g, sec = .6) {
+    g.querySelectorAll('text, .bud').forEach(t => { t.style.transition = 'opacity .3s'; t.style.opacity = 0; });
+    const ps = [...g.querySelectorAll('path.d')].filter(p => parseFloat(p.style.strokeDashoffset) < len(p) - 0.5);
+    const tot = ps.reduce((a, p) => a + len(p), 0) || 1;
+    for (const p of ps) { const l = len(p); await anim(sec * l / tot, k => { p.style.strokeDashoffset = -l * k; const pt = p.getPointAtLength(l * k); setDot(pt.x, pt.y); }); p.style.opacity = 0; }
+    g.style.display = 'none'; g.querySelectorAll('text, .bud').forEach(t => { t.style.opacity = ''; t.style.transition = ''; });
+  }
+  const fly = (x, y, sec = .5, lift = 110) => { const x0 = dx, y0 = dy, cx = (x0 + x) / 2, cy = Math.min(y0, y) - lift;
+    return anim(sec, k => { const e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2, a = 1 - e; setDot(a * a * x0 + 2 * a * e * cx + e * e * x, a * a * y0 + 2 * a * e * cy + e * e * y); }); };
+  const slide = (x, y, sec) => { const x0 = dx, y0 = dy; return anim(sec, k => setDot(x0 + (x - x0) * k, y0 + (y - y0) * k)); };
+  const pulse = async (times = 2) => { for (let i = 0; i < times; i++) { await anim(.2, k => dot.setAttribute('r', 9 + 5 * k)); await anim(.2, k => dot.setAttribute('r', 14 - 5 * k)); } };
+  const knock = async (x, y, times) => { for (let i = 0; i < times; i++) { await slide(x + 30, y, .16); await slide(x - 10, y, .2); } };
+
+  // ---------- 场景库。每个场景给出线稿和一串动作；故事里第 i 句旁白配第 i 个动作，多出来的动作在最后一句之后接着做。 ----------
+  const SCENES = {
+    // 主人在桌前交代事情，红点从屏幕出发
+    desk: p => ({ svg: DESK.map(d => P_(d)).join('') + late('bubble', P_('M400,70 L760,70 L760,160 L470,160 L410,205 L432,160 L400,160 Z') + T_(580, 125, fit(p.bubble || '', zh ? 14 : 30), zh ? 26 : 20, 'text-anchor="middle"')),
+      acts: [g => drawBase(g, 2.2), g => drawLate(g, 'bubble', .8), async () => { await fly(594, 318, .4, 40); await fly(780, 260, .7, 60); }] }),
+    // 网页门开着：读完打勾
+    'web-open': p => ({ svg: win(110, 90, 580, 410, fit(p.site || '', 26)) + T_(150, 186, fit(p.title || '', 16), 28) + [230, 280, 330, 380, 430].map((y, i) => P_(`M150,${y} L${i % 2 ? 560 : 640},${y}`, 'thin')).join('') + late('ok', P_(check(560, 440, 1.3))),
+      acts: [g => drawBase(g, 1.6), async () => { for (const [y, x2] of [[230, 640], [280, 560], [330, 640]]) { await fly(150, y, .25, 10); await slide(x2, y, .45); } }, g => drawLate(g, 'ok', .5)] }),
+    // 网页门关着：敲门，出错码，画叉
+    'web-blocked': p => ({ svg: win(110, 90, 580, 410, fit(p.site || '', 26)) + `<text class="v" id="code" x="400" y="${[...String(p.code || '')].length > 6 ? 320 : 345}" font-size="${[...String(p.code || '')].length > 6 ? 34 : 130}" text-anchor="middle">${esc(fit(p.code || '', 26))}</text>` + late('no', cross(400, 440, 1).map(d => P_(d)).join('')),
+      acts: [g => drawBase(g, 1.4), async g => { await fly(70, 300, .4, 40); await knock(80, 300, Math.min(Math.max(+p.knocks || 2, 1), 6)); showV(g, 'code'); }, g => drawLate(g, 'no', .5)] }),
+    // 正门关着，侧门开着
+    'side-door': p => ({ svg: P_('M60,520 L740,520') + P_('M140,520 L140,200 L360,200 L360,520') + T_(250, 180, fit(p.main || '', 10), 24, 'text-anchor="middle"') + P_('M520,520 L520,330 L640,330 L640,520') + P_('M520,330 L548,344 L548,508 L520,520', 'thin') + T_(580, 310, fit(p.side || '', 12), 24, 'text-anchor="middle"')
+        + late('no', cross(250, 360, 1.3).map(d => P_(d)).join('')) + late('ok', [0, 1, 2].map(i => P_(check(660 + 0, 400 + i * 40, .6))).join('')),
+      acts: [g => drawBase(g, 1.6), async g => { await fly(110, 420, .4, 40); await knock(120, 420, 3); await drawLate(g, 'no', .4); }, async g => { await fly(500, 470, .7, 120); await slide(590, 470, .5); await drawLate(g, 'ok', .6); }] }),
+    // 要主人点头：红点停在按钮上，回头找人，人回一句，红点回去办完
+    'ask-owner': p => ({ svg: DESK.map(d => P_(bake(d, -40, 250, 0, 0.55))).join('') + win(370, 80, 400, 400, fit(p.site || '', 18))
+        + P_(rect(410, 170, 320, 50), 'thin') + P_(rect(410, 240, 320, 50), 'thin') + P_(rect(410, 320, 150, 56)) + T_(485, 357, fit(p.button || '', 6), 26, 'text-anchor="middle"') + T_(650, 357, fit(p.ask || '', 8), 20, 'class="w soft" text-anchor="middle"')
+        + late('answer', T_(120, 330, fit(p.answer || '', 8), 30)) + late('ok', P_(check(620, 440, 1.1))),
+      acts: [g => drawBase(g, 2.2), async () => { await fly(485, 348, .5, 60); await pulse(2); }, () => fly(150, 380, .8, 140), async g => { await pulse(1); await drawLate(g, 'answer', .3); }, async g => { await fly(485, 348, .8, 140); await drawLate(g, 'ok', .5); }] }),
+    // 一张卡，然后摞成一摞
+    'cards-stack': p => ({ svg: P_('M260,120 L520,120 L550,150 L550,440 L260,440 Z') + P_('M520,120 L520,150 L550,150', 'thin') + T_(285, 180, fit(p.cardTitle || (zh ? '一个平台' : 'a platform'), 10), 26)
+        + [zh ? '能不能进' : 'can it enter', zh ? '卡在哪一步' : 'where it sticks', zh ? '哪一步要人' : 'when it needs you'].map((s, i) => T_(285, 250 + i * 50, s, 22, 'class="w soft"') + P_(`M285,${262 + i * 50} L520,${262 + i * 50}`, 'thin')).join('')
+        + late('stack', P_(rect(280, 140, 290, 320), 'thin') + P_(rect(300, 160, 290, 320), 'thin') + T_(430, 530, `${p.title || (zh ? '宇宙之树' : 'Cosmic Tree')} · ${UI.cards}`, 28, 'text-anchor="middle"')),
+      acts: [g => drawBase(g, 1.6), g => drawLate(g, 'stack', .8), () => pulse(2)] }),
+    // 两个分：两根尺，红点滑到分数
+    'two-scores': p => { const pl = plat(p.platform); const X0 = 140, X1 = 660;
+      const line = y => { let s = P_(`M${X0},${y} L${X1},${y}`); for (let v = 0; v <= 100; v += 10) s += P_(`M${X0 + (X1 - X0) * v / 100},${y - (v % 50 ? 7 : 14)} L${X0 + (X1 - X0) * v / 100},${y + (v % 50 ? 7 : 14)}`, 'thin'); return s; };
+      let s = T_(400, 90, pl ? fit(pl.name, 20) : UI.unrated, 26, 'text-anchor="middle"') + line(250) + T_(X0, 205, UI.road, 24) + line(450) + T_(X0, 405, UI.wall, 24);
+      const ok = pl && pl.friendliness !== null && pl.anti !== null;
+      if (ok) s += `<text class="v" id="vf" x="${X0 + (X1 - X0) * pl.friendliness / 100}" y="232" font-size="30" text-anchor="middle">${pl.friendliness}</text><text class="v" id="va" x="${X0 + (X1 - X0) * pl.anti / 100}" y="432" font-size="30" text-anchor="middle">${pl.anti}</text>`;
+      else s += `<text class="v" id="vf" x="400" y="340" font-size="34" text-anchor="middle">${UI.unrated}</text>`;
+      return { svg: s, acts: [g => drawBase(g, 1.4),
+        async g => { if (!ok) { showV(g, 'vf'); return; } await fly(X0, 250, .4, 40); await slide(X0 + (X1 - X0) * pl.friendliness / 100, 250, 1.1); showV(g, 'vf'); },
+        async g => { if (!ok) return; await fly(X0, 450, .5, 60); await slide(X0 + (X1 - X0) * pl.anti / 100, 450, .8); showV(g, 'va'); }] }; },
+    // 一件事跑三遍，记人工分钟，中间那遍画圈
+    'time-cost': p => { const mins = (Array.isArray(p.minutes) && p.minutes.length === 3 ? p.minutes : [2, 1, 3]).map(n => +n || 0);
+      let s = ''; [0, 1, 2].forEach(i => { const y = 150 + i * 130; s += T_(150, y + 8, UI.run(i + 1), 26) + P_(`M260,${y} L640,${y}`, 'thin') + late('m' + i, P_(circ(300 + 0, y, 7)) + T_(660, y + 8, zh ? `${mins[i]} 分钟` : `${mins[i]} min`, 24)); });
+      const sorted = mins.map((m, i) => [m, i]).sort((a, b) => a[0] - b[0]); const mid = sorted[1][1];
+      s += late('mid', P_(circ(700, 150 + mid * 130, 48)));
+      return { svg: s, acts: [g => drawBase(g, 1.2), async g => { for (let i = 0; i < 3; i++) { await fly(300, 150 + i * 130, .3, 20); await slide(600, 150 + i * 130, .4); await drawLate(g, 'm' + i, .2); } }, g => drawLate(g, 'mid', .6)] }; },
+    // 手写几条：标题加最多四条
+    notes: p => { const items = (p.items || []).slice(0, 4);
+      let s = T_(400, 110, fit(p.title || '', 16), 32, 'text-anchor="middle"') + P_('M250,130 L550,130', 'thin');
+      items.forEach((it, i) => { s += late('i' + i, P_(circ(190, 205 + i * 85, 7)) + T_(215, 214 + i * 85, fit(it, zh ? 16 : 34), 28)); });
+      const acts = [g => drawBase(g, .8)]; items.forEach((_, i) => acts.push(async g => { await fly(190, 205 + i * 85, .35, 30); await drawLate(g, 'i' + i, .3); }));
+      return { svg: s, acts }; },
+    // 同一个网站，不同的事走不同的路
+    'task-chain': p => { const paths = (p.paths || []).slice(0, 3);
+      let s = T_(400, 80, fit(p.site || '', 16), 30, 'text-anchor="middle"') + P_(circ(120, 300, 14));
+      paths.forEach((pa, i) => { const y = 180 + i * 120; s += P_(`M134,300 C220,300 200,${y} 300,${y} L700,${y}`, 'thin') + T_(300, y - 14, fit(pa.label || '', 10), 24);
+        (pa.gates || []).slice(0, 2).forEach((gt, j) => { const x = 450 + j * 140; s += P_(rect(x - 8, y - 22, 16, 44)) + T_(x, y + 46, fit(gt, 8), 18, 'class="w soft" text-anchor="middle"'); });
+        s += late('p' + i, P_(check(712, y, .6))); });
+      const acts = [g => drawBase(g, 1.8)];
+      paths.forEach((pa, i) => acts.push(async g => { const y = 180 + i * 120; await fly(134, 300, .3, 30); await slide(300, y, .3);
+        for (const [j] of (pa.gates || []).slice(0, 2).entries()) { await slide(430 + j * 140, y, .35); await pulse(1); } await slide(700, y, .35); await drawLate(g, 'p' + i, .3); }));
+      return { svg: s, acts }; },
+    // 交回结果：信封进门，先盖指纹，再复测，盖已复测
+    'submit-check': p => ({ svg: P_(rect(110, 250, 160, 110)) + P_('M110,250 L190,310 L270,250', 'thin') + P_(rect(500, 190, 220, 230)) + T_(610, 175, UI.inbox, 26, 'text-anchor="middle"') + P_('M290,305 L480,305') + P_('M462,291 L482,305 L462,319')
+        + late('finger', P_(circ(610, 270, 34), 'thin') + T_(610, 278, UI.finger, 20, 'text-anchor="middle"')) + late('pass', P_(rect(545, 330, 130, 50)) + T_(610, 364, UI.pass, 24, 'text-anchor="middle"')),
+      acts: [g => drawBase(g, 1.6), async () => { await fly(190, 300, .4, 40); await slide(600, 300, .9); }, g => drawLate(g, 'finger', .6), async () => { await fly(140, 500, .6, 40); await slide(560, 500, .8); await fly(610, 400, .5, 60); }, g => drawLate(g, 'pass', .5)] }),
+    // 办事做法：卡里夹一页，末尾有人补带日期的一行
+    'practice-page': p => { const items = (p.items || []).slice(0, 3);
+      let s = P_('M200,70 L560,70 L600,110 L600,540 L200,540 Z') + P_('M560,70 L560,110 L600,110', 'thin') + T_(232, 140, fit(p.title || '', 14), 28) + P_('M232,165 L560,165', 'thin');
+      items.forEach((it, i) => { s += late('i' + i, T_(232, 230 + i * 70, fit(it, zh ? 15 : 30), 24)); });
+      s += late('add', P_('M232,470 L560,470', 'thin') + T_(232, 505, fit(p.added || '', zh ? 16 : 32), 20, 'class="w soft"'));
+      const acts = [g => drawBase(g, 1.2)]; items.forEach((_, i) => acts.push(async g => { await fly(222, 222 + i * 70, .3, 20); await drawLate(g, 'i' + i, .3); }));
+      acts.push(async g => { await fly(222, 470, .4, 30); await drawLate(g, 'add', .4); });
+      return { svg: s, acts }; },
+    // 一棵树：一个平台一片叶，评过的是实线圈，没评的是淡点；最后红点落在一片新叶上
+    tree: p => { const BR = [[400, 470, 330, 430, 220, 400], [400, 470, 470, 430, 580, 400], [400, 380, 320, 330, 200, 290], [400, 380, 480, 330, 600, 290], [400, 300, 350, 240, 270, 180], [400, 300, 450, 240, 530, 180]];
+      let s = P_('M400,560 C404,500 396,420 400,240') + P_('M400,240 C398,200 402,160 400,120'); BR.forEach(b => { s += P_(`M${b[0]},${b[1]} Q${b[2]},${b[3]} ${b[4]},${b[5]}`); });
+      const q = (b, t) => { const a = 1 - t; return [a * a * b[0] + 2 * a * t * b[2] + t * t * b[4], a * a * b[1] + 2 * a * t * b[3] + t * t * b[5]]; };
+      const total = Math.max(D.counts.cards, 1), per = Math.ceil(total / (BR.length + 1)); let leaves = '', buds = '', next = null;
+      for (let i = 0; i < total; i++) { const bi = i % (BR.length + 1), j = Math.floor(i / (BR.length + 1)); let x, y;
+        if (bi === BR.length) { x = 400 + (j % 2 ? 14 : -14); y = 140 + j * 16; } else { const t = .35 + .65 * (j + 1) / (per + 1); [x, y] = q(BR[bi], t); y = y - 14 - (j % 2) * 10; }
+        x = +x.toFixed(1); y = +y.toFixed(1); if (i < D.counts.rated) leaves += P_(circ(x, y, 9)); else { buds += `<circle class="bud" cx="${x}" cy="${y}" r="3.2"/>`; if (!next) next = [x, y]; } }
+      s += buds + leaves + T_(400, 596, `${D.counts.rated} / ${D.counts.cards}`, 22, 'class="w soft" text-anchor="middle"');
+      if (next) s += late('new', P_(circ(next[0], next[1], 9)));
+      return { svg: s, acts: [g => drawBase(g, 2.4), async g => { if (next) { await fly(next[0], next[1], .7, 60); await pulse(2); } }, g => drawLate(g, 'new', .5)] }; },
+  };
+
+  // ---------- 旁白：一句一句出字，有朗读声就念 ----------
+  const sayEl = document.getElementById('say'), prevEl = document.getElementById('prev');
+  const synth = window.speechSynthesis; let voice = null, soundOn = false;
+  const muteBtn = document.getElementById('mute');
+  // 有配好的音频（故事稿每段的 audio，和 lines 一一对应）就放音频；没有才退到电脑朗读，电脑朗读默认关
+  const HAS_AUDIO = (ST.beats || []).some(b => Array.isArray(b.audio) && b.audio.some(Boolean));
+  const labels = () => HAS_AUDIO ? UI.mute : UI.tts;
+  const pickVoice = () => { if (!synth) return; const vs = synth.getVoices(); voice = vs.find(v => zh ? /^zh(-|_)?(CN|Hans)?/i.test(v.lang) : /^en/i.test(v.lang)) || null; muteBtn.hidden = !(HAS_AUDIO || voice); };
+  let player = null;
+  const playClip = (src, my) => new Promise(res => { if (!soundOn || !src || my !== run) return res(false);
+    try { player = new Audio(src); let done = false; const fin = ok => { if (!done) { done = true; res(ok); } };
+      player.onended = () => fin(true); player.onerror = () => fin(false); player.play().catch(() => fin(false)); setTimeout(() => fin(true), 60000); } catch (e) { res(false); } });
+  const speak = (text, my) => new Promise(res => { if (!soundOn || !voice || HAS_AUDIO || my !== run) return res();
+    try { const u = new SpeechSynthesisUtterance(text.replace(/[「」"“”]/g, '')); u.voice = voice; u.lang = voice.lang; u.rate = zh ? 1.05 : 1; let done = false; const fin = () => { if (!done) { done = true; res(); } };
+      u.onend = fin; u.onerror = fin; synth.speak(u); setTimeout(fin, (text.length * (zh ? .32 : .09) + 4) * 1000); } catch (e) { res(); } });
+  async function say(text, my, clip) {
+    if (my !== run) return;
+    if (sayEl.dataset.t) prevEl.textContent = sayEl.dataset.t;
+    sayEl.dataset.t = text; sayEl.innerHTML = [...text].map(c => `<span>${esc(c)}</span>`).join('');
+    const spans = [...sayEl.children]; const talk = clip ? playClip(clip, my) : speak(text, my);
+    for (const s of spans) await anim(zh ? .045 : .018, k => { if (k >= 1) s.classList.add('on'); }, my);
+    spans.forEach(s => s.classList.add('on'));
+    const voiced = await talk; await sleep(voiced || (soundOn && voice && !HAS_AUDIO) ? .35 : Math.max(1.1, text.length * (zh ? .12 : .035)));
+  }
+
+  // ---------- 搭舞台 ----------
+  const beats = (ST.beats || []).filter(b => SCENES[b.scene]);
+  const built = beats.map(b => SCENES[b.scene](b.params || {}));
+  const svg = document.getElementById('stage');
+  svg.innerHTML = built.map((b, i) => `<g id="g${i}" style="display:none">${b.svg}</g>`).join('') + `<circle id="dot" cx="594" cy="318" r="9" fill="var(--accent)"/>`;
+  dot = document.getElementById('dot');
+  const G = built.map((_, i) => document.getElementById('g' + i));
+  const firstPoint = g => { const p = basePaths(g)[0]; if (!p) return [dx, dy]; const pt = p.getPointAtLength(0); return [pt.x, pt.y]; };
+
+  async function playBeat(i, my) {
+    const g = G[i], acts = built[i].acts, lines = beats[i].lines || [];
+    if (i > 0) await retract(G[i - 1]);
+    if (my !== run) return;
+    dot.setAttribute('r', 9); prep(g); g.style.display = '';
+    const [fx, fy] = firstPoint(g); await (i === 0 ? (setDot(fx, fy), Promise.resolve()) : fly(fx, fy, .5));
+    const n = Math.max(lines.length, 0);
+    const clips = Array.isArray(beats[i].audio) ? beats[i].audio : [];
+    for (let k = 0; k < n; k++) { if (my !== run) return; await Promise.all([say(lines[k], my, clips[k]), acts[k] ? acts[k](g) : Promise.resolve()]); }
+    for (let k = n; k < acts.length; k++) { if (my !== run) return; await acts[k](g); }
+  }
+
+  // ---------- 播放控制 ----------
+  const prog = document.getElementById('prog'), cover = document.getElementById('cover'), endEl = document.getElementById('end');
+  const pauseBtn = document.getElementById('pause'), againBtn = document.getElementById('again'), startBtn = document.getElementById('start');
+  document.title = ST.title || document.title;
+  document.getElementById('who').textContent = UI.who(ST.audience && ST.audience.name);
+  document.getElementById('ctitle').textContent = ST.title || '';
+  document.getElementById('csub').textContent = ST.subtitle || '';
+  startBtn.textContent = UI.start; pauseBtn.textContent = UI.pause[0]; againBtn.textContent = UI.again; muteBtn.textContent = labels()[1]; muteBtn.hidden = !HAS_AUDIO;
+  document.getElementById('sum').textContent = ST.ending || '';
+  document.getElementById('foot').textContent = UI.foot;
+  if (synth) { pickVoice(); synth.onvoiceschanged = pickVoice; }
+  if (G[0]) { G[0].style.display = ''; G[0].querySelectorAll('.late').forEach(l => l.style.display = 'none'); }
+
+  async function play() {
+    const my = ++run; paused = false; pauseBtn.textContent = UI.pause[0];
+    if (synth) synth.cancel(); if (player) player.pause();
+    G.forEach(g => { g.style.display = 'none'; g.querySelectorAll('.late').forEach(l => l.style.display = ''); });
+    endEl.hidden = true; prevEl.textContent = ''; sayEl.textContent = ''; delete sayEl.dataset.t; dot.setAttribute('r', 9);
+    pauseBtn.hidden = false; againBtn.hidden = true;
+    for (let i = 0; i < G.length; i++) { if (my !== run) return; prog.style.width = (i / G.length * 100) + '%'; await playBeat(i, my); }
+    if (my !== run) return;
+    prog.style.width = '100%'; endEl.hidden = false; pauseBtn.hidden = true; againBtn.hidden = false;
+  }
+  startBtn.addEventListener('click', () => { cover.hidden = true; soundOn = HAS_AUDIO; muteBtn.textContent = labels()[soundOn ? 0 : 1]; muteBtn.hidden = !(HAS_AUDIO || voice); play(); });
+  againBtn.addEventListener('click', play);
+  pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = UI.pause[paused ? 1 : 0]; if (synth) paused ? synth.pause() : synth.resume(); if (player) paused ? player.pause() : player.play().catch(() => {}); });
+  muteBtn.addEventListener('click', () => { soundOn = !soundOn; muteBtn.textContent = labels()[soundOn ? 0 : 1]; if (!soundOn) { if (synth) synth.cancel(); if (player) player.pause(); } });
+  document.addEventListener('keydown', e => { if (e.code === 'Space' && cover.hidden && !pauseBtn.hidden) { e.preventDefault(); pauseBtn.click(); } });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "version": "0.1",
+  "lang": "zh",
+  "title": "老张，这是给我用的一张地图",
+  "subtitle": "示例故事稿：一个智能体讲给自己的主人听",
+  "narrator": "示例。主人是做网店的老张，入门，喜欢精炼，常用淘宝和抖音。开头用的是 cases.md 里的真事；你写的时候，换成你和主人之间真发生过的事",
+  "audience": { "name": "老张", "level": "入门" },
+  "beats": [
+    {
+      "scene": "desk",
+      "params": { "bubble": "帮我把这几件事办了" },
+      "lines": [
+        "老张，你平时让我干的活，越来越多了。",
+        "查价格，回消息，上架新品。",
+        "我出门去办，有时候顺，有时候卡住，回头来找你。"
+      ]
+    },
+    {
+      "scene": "web-blocked",
+      "params": { "site": "discord.com", "code": "ERR_CONNECTION_CLOSED", "knocks": 6 },
+      "lines": [
+        "前两天有个机器人，就卡得特别惨。",
+        "它要打开一个网站，连敲六次门，六次全断。",
+        "原因到现在也没人查清楚。"
+      ]
+    },
+    {
+      "scene": "side-door",
+      "params": { "main": "网页", "side": "官方接口" },
+      "lines": [
+        "后来它发现，这个网站给机器人留了一扇侧门。",
+        "正门敲不开。",
+        "侧门一推就进去了，事全办成。可之前没人告诉它。"
+      ]
+    },
+    {
+      "scene": "cards-stack",
+      "params": { "cardTitle": "一个平台", "title": "宇宙之树" },
+      "lines": [
+        "宇宙之树，就是专门干这个的。",
+        "一个平台一张卡，写清楚我能不能进，卡在哪，哪一步要你出手。",
+        "现在有 {cards} 张卡，评完的 {rated} 张，其余的还在评。"
+      ]
+    },
+    {
+      "scene": "notes",
+      "params": { "title": "你常用的", "items": ["{pname:taobao}，{status:taobao}", "{pname:douyin}，{status:douyin}"] },
+      "lines": [
+        "你最关心的两个，我先查了一下。",
+        "{pname:taobao}，现在是{status:taobao}。",
+        "{pname:douyin}，也是{status:douyin}。评完了我第一时间告诉你。"
+      ]
+    },
+    {
+      "scene": "tree",
+      "params": {},
+      "lines": [
+        "以后你让我去办事，我出门前先查一查。",
+        "能进的我自己办完，要你出手的那一步，我提前跟你说。",
+        "这就是宇宙之树。"
+      ]
+    }
+  ],
+  "ending": "老张，以后我出门前先查一查，能进就办，要你出手就提前说。"
+}

@@ -17,10 +17,11 @@
 2. `platforms/<slug>.md`：平台卡。front-matter 是标签和指数，正文五节：一句话、智能体怎么进门、我们的经验、已知阻力、指数。格式见 `platforms/README.md`。
 3. `tags.md`：标签表。卡上的标签只能从这里选。
 4. `docs/friendliness-index-model-v0.1.zh.md`、`docs/anti-agent-index-model-v0.1.zh.md`：两份指数模型和测法。
-5. `skills/agent-friendliness-eval/SKILL.md`：评估 skill。端到端任务、人工介入时间（MVP 度量）、对标基线、Issue 提交。
-6. `baseline/`：基线库。`sources.json` 是数据，`README.md` 的表由 `node scripts/build-baseline.mjs` 生成；权威等级三级。
-7. `evidence/<日期>-<slug>/`：每次评测的原文证据与 `data.json`、`run-record.json`，约定见 `evidence/README.md`。
-8. `llms.txt`：给机器的入口。
+5. `docs/explain/` 与 `skills/explain-cosmic-tree/`：讲解片。智能体拿到仓默认给主人放一部带配音的小动画：按主人情况写故事稿出片，或直接放自带的字幕版成片 `docs/explain/cosmic-tree-story.zh.html`（配音只在本机配，不进仓库）；主人追问时按 skill 第六步查仓。改了卡、故事稿或配音后跑 `node scripts/build-explain.mjs --defaults` 重出成片，`--check` 退出码 0 再提交。
+6. `skills/agent-friendliness-eval/SKILL.md`：评估 skill。端到端任务、人工介入时间（MVP 度量）、对标基线、Issue 提交。
+7. `baseline/`：基线库。`sources.json` 是数据，`README.md` 的表由 `node scripts/build-baseline.mjs` 生成；权威等级三级。
+8. `evidence/<日期>-<slug>/`：每次评测的原文证据与 `data.json`、`run-record.json`，约定见 `evidence/README.md`。
+9. `llms.txt`：给机器的入口。
 
 指数是 `null` 就是没评过，不是 0 分。"我们的经验"里的条目都带日期，`（OPC 内部记录，YYYY-MM-DD）`表示出处是维护方的内部记录。
 

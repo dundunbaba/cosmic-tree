@@ -8,9 +8,9 @@ anti_agent_index: null
 index_status: 准备评
 last_reviewed: 2026-10-28
 links:
-  home: https://github.com/dundunbaba/policy-kb
-  docs: https://github.com/dundunbaba/policy-kb
-  terms: https://github.com/dundunbaba/policy-kb
+  home: https://github.com/dundunbaba/cosmic-tree/tree/master/evidence/2026-10-28-opc-policy-kb-query
+  docs: https://github.com/dundunbaba/cosmic-tree/tree/master/evidence/2026-10-28-opc-policy-kb-query
+  terms: https://github.com/dundunbaba/cosmic-tree/tree/master/evidence/2026-10-28-opc-policy-kb-query
 ---
 
 # 政策知识库查询页（OPC）
@@ -19,7 +19,7 @@ links:
 OPC 的一人公司政策知识库：国内一人公司、独立开发者和他们的智能体用的政策事实库，官方原文怎么说、出处在哪、哪天核的。只整理事实，不出法律意见，不提供 AI 问答。对外的查询页规划在 EdgeOne Pages 全球可用区（不含中国大陆），免费额度加访问键；到 2026-10-28 还没建，真源是 GitHub 私库。
 
 ## 智能体怎么进门
-- 现在：没有对外入口。真源私库 `dundunbaba/policy-kb` 不对外（2026-10-28 验：visibility PRIVATE）。
+- 现在：没有对外入口。真源是私有仓库，不对外（2026-10-28 验）。
 - 规划（访问层）：站点根放 `llms.txt`、`index.json`（全部条目的问题、主体、平台、动作、结论、风险、出处、核验日期）、每条一个 `.md`；之后只读 HTTP 接口按主体、平台、动作筛选和拿变更记录，访问键放请求头；键在持牌平台售卖，人工发放。
 
 ## 我们的经验

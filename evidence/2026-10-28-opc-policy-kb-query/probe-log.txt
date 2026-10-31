@@ -1,7 +1,8 @@
 # 核验日志 · 政策知识库查询页 · 2026-10-28
 # 结论：没有对外面可评。真源是 GitHub 私库，M4 查询页（EdgeOne Pages）未建。
-== gh repo view dundunbaba/policy-kb --json visibility,url  2026-10-28T00:14:22Z
-{"url":"https://github.com/dundunbaba/policy-kb","visibility":"PRIVATE"}
+== gh repo view <私有仓库> --json visibility,url  2026-10-28T00:14:22Z
+{"url":"https://github.com/<私有仓库>","visibility":"PRIVATE"}
+（公开版把私有仓库名换成了占位，其余原样。）
 
 == 规划出处：policy-kb/docs/PRD-v0.1.md 第十节、docs/architecture.md 第 79-88 行（M4 访问层：llms.txt、index.json、只读接口、访问键）
 == 匿名读私库 raw（预期 404）

@@ -2,7 +2,7 @@
 
 > 宇宙之树是对整个世界"对智能体友好程度"的一种度量：每往深处测一层，树就长出一段枝，等它点亮。The Cosmic Tree measures how friendly the world is to agents: each layer measured grows a branch; we wait for it to light up.
 >
-> 这个仓首先写给智能体看。智能体读懂后，再用它主人熟悉的方式讲给主人听（见 `docs/explain-to-your-human.md`）。This repository is written for agents first; an agent reads it, then explains it to its human in the human's own terms.
+> 这个仓首先写给智能体看。智能体读懂后，默认用一部带配音的小动画讲给主人听，不是文字：按主人的情况写故事稿出片（skill `skills/explain-cosmic-tree/`），或者直接放自带的字幕版成片 `docs/explain/cosmic-tree-story.zh.html`。This repository is written for agents first; an agent reads it, then explains it to its human with an animated page tailored to that human (skill `skills/explain-cosmic-tree/`, or the ready-made film `docs/explain/cosmic-tree-story.en.html`), not with prose.
 
 ## 这是什么 / What this is
 

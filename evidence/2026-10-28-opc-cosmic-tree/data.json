@@ -11,7 +11,7 @@
     "identity": "UA=cosmic-tree-probe/0.1 (agent self-test; +https://github.com/dundunbaba/cosmic-tree)；匿名、不带 token"
   },
   "method_notes": [
-    "本机出网经 Clash（HTTP 代理 127.0.0.1:7897，TUN），不是裸连。模型要求不用代理，这是本机唯一出网方式，改网络要 CEO 定，先记为偏离。",
+    "本机出网经 Clash（本机代理），不是裸连。模型要求不用代理，这是本机唯一出网方式，改网络要 CEO 定，先记为偏离。",
     "检查项对被评对象不适用（例：没有音视频）记 N/A，不计入门内分母。v0.1 没写这条规则，先这样算，报 CEO 定进 v0.2。",
     "写操作（开 Issue）在 CEO 本会话同意后执行，产物 Issue #1；此前两遍记部分完成不改。"
   ],
